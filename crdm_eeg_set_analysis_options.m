@@ -15,9 +15,9 @@ switch compName
         % This is the base root for both raw data and analysis:
         options.mainDir = '/media/lil/Elements/CRDM/Maria/EEG';
         % This is the directory where you want the data analysis to happen:
-        options.workDir = fullfile(options.maindir, 'prj', 'convGLM');
+        options.workDir = fullfile(options.mainDir, 'prj', 'convGLM');
         % This is the directory where the raw EEG and behavioural data are:
-        options.rawDir  = fullfile(options.maindir, 'raw');
+        options.rawDir  = fullfile(options.mainDir, 'raw');
         % This is where we are now (where the code is to be found):
         options.codeDir = fileparts(mfilename('fullpath'));
     case 'iMac'
