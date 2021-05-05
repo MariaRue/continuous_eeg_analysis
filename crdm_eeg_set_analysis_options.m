@@ -51,6 +51,9 @@ options.preproc.artefact.threshold = 100;
 options.preproc.artefact.excwin = 500;
 options.preproc.artefact.badchanthresh = 1000;
 
+options.preproc.csdFlag = 0;
+options.preproc.reference = 'LMRM'; % 'LMRM', 'average'
+
 options.preproc.eyeblinktreatment   = 'ssp'; % 'reject', 'ssp'
 options.preproc.eyeblinkchannels    = {'VEOG'};
 options.preproc.eyeblinkthreshold   = 5; % for SD thresholding: in standard deviations, for amp in uV
