@@ -5,8 +5,8 @@ rtFlag = 0;
 
 baseline = 0;
 faFlag = 1;
-subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
-%subjectList = [58];
+%subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+subjectList = [58];
 
 numberSubjects = length(subjectList);
 options = continuous_RDK_set_options('iMac');
@@ -15,7 +15,7 @@ for subjects = 1:length(subjectList)
     
     subID = subjectList(subjects);
     [details,paths] =  conrdk_subjects(subID,options,reference,csdFlag);
-    
+    keyboard;
     data_load = load(paths.(reference).singleTrial.appendedData.(timelockCondition));
     data{subjects} = data_load.dataAppend;
     

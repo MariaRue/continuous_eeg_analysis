@@ -1,21 +1,21 @@
 %subjectList = [ 16, 18:21, 24, 26, 27, 28, 29, 31, 32, 33, 34, 35, 39, 40, 41, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
-subjectList = [ 16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+%subjectList = [ 16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+subjectList = [33, 34, 35, 39, 40, 41, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+%subjectList = [62:64,66,68,70]; % vertical motion subjects 
+
 %subjectList = [ 19,21,24,26,27,31,33,35,39,40,41,47,50,55];
-subjectList = [62:64,66,68,70];
-
-
-
-
+%% 32 39 40 41 with those subjects there is a problem - 32 session names mixed up, 
+%% 41 something with a trigger - check subject function, 39 40 just PCA  = but others probably also also check comments on other subjects in subject file
 
 reference = 'LMRM';
 options = continuous_RDK_set_options('iMac');
-
 
 forceEEGLABConvert = 0;
 forceSPMConvert = 0;
 forceDownsample = 0;
 forceRereference = 0;
 forceFilter = 0;
+forceTfAnalysis = 0;
 forceEyeblink = 0;
 forceArtefactRejection = 0;
 forceNanArtefacts = 0;
@@ -26,9 +26,7 @@ csdFlag = 1;
 for subject = 1:length(subjectList)
     subID = subjectList(subject);
     [details,paths] =  conrdk_subjects(subID,options,reference,0);
-    
-    
-    
+
     if forceEEGLABConvert
         eeglab;
         for session = 1:length(details.preproc.sessionIDs)
@@ -44,9 +42,7 @@ for subject = 1:length(subjectList)
         sessionID = details.preproc.sessionIDs(session);
         
         options.preproc.windowForEyeblinkdetection = details.preproc.windowEyblinkdetection(:,session);
-        
-        
-        
+
         cd(paths.preprocessed.SPM)
         %
         if forceSPMConvert
@@ -81,12 +77,22 @@ for subject = 1:length(subjectList)
             
         end
         
+        % switchCase here 
         if forceFilter
             
             D{sessionID} = filter_EEG(D{sessionID},options);
             
         else
-            D{sessionID} = spm_eeg_load(details.preproc.filteredFiles(sessionID).names);
+            %D{sessionID} = spm_eeg_load(details.preproc.filteredFiles(sessionID).names);
+            
+            if forceTfAnalysis
+                D{session} = copy_EEG_for_tf_analysis(D{session},options);
+                disp('tf')
+            else
+                D{session} = spm_eeg_load(details.preproc.filteredFiles(session).names);
+            end
+            
+            
             
             if isfield (D{sessionID},'sconfounds')
                 D{sessionID} = rmfield(D{sessionID},'sconfounds');
@@ -129,54 +135,55 @@ for subject = 1:length(subjectList)
             %     end
             % end
             
+            % einfach erst ohne das hier laufen und dann mit!
             
-            if subID == 19 && (sessionID == 5 || sessionID == 2)
-                
-                
-                Dbc = rmfield(Dbc,'sconfounds');
-                newsconfounds.label = chanlabels(D{sessionID-1});
-                newsconfounds.coeff = D{sessionID-1}.sconfounds;
-                newsconfounds.bad = zeros(61,1);
-                %
-                Dbc = sconfounds(Dbc, newsconfounds);
-                save(Dbc);
-            elseif subID == 21 && (sessionID == 1 || sessionID == 2)
-                Dbc = rmfield(Dbc,'sconfounds');
-                newsconfounds.label = chanlabels(D{3});
-                newsconfounds.coeff = D{3}.sconfounds;
-                newsconfounds.bad = zeros(61,1);
-                %
-                Dbc = sconfounds(Dbc, newsconfounds);
-                save(Dbc);
-                
-            elseif subID == 24 && sessionID == 1
-                Dbc = rmfield(Dbc,'sconfounds');
-                newsconfounds.label = chanlabels(D{2});
-                newsconfounds.coeff = D{2}.sconfounds;
-                newsconfounds.bad = zeros(61,1);
-                %
-                Dbc = sconfounds(Dbc, newsconfounds);
-                save(Dbc);
-                
-            elseif subID == 27 && sessionID == 4
-                Dbc = rmfield(Dbc,'sconfounds');
-                newsconfounds.label = chanlabels(D{3});
-                newsconfounds.coeff = D{3}.sconfounds;
-                newsconfounds.bad = zeros(61,1);
-                %
-                Dbc = sconfounds(Dbc, newsconfounds);
-                save(Dbc);
-                
-            elseif subID == 33 && (sessionID == 2 || sessionID == 6)
-                Dbc = rmfield(Dbc,'sconfounds');
-                newsconfounds.label = chanlabels(D{1});
-                newsconfounds.coeff = D{1}.sconfounds;
-                newsconfounds.bad = zeros(61,1);
-                %
-                Dbc = sconfounds(Dbc, newsconfounds);
-                save(Dbc);
-                
-            end
+%             if subID == 19 && (sessionID == 5 || sessionID == 2)
+%                 
+%                 
+%                 Dbc = rmfield(Dbc,'sconfounds');
+%                 newsconfounds.label = chanlabels(D{sessionID-1});
+%                 newsconfounds.coeff = D{sessionID-1}.sconfounds;
+%                 newsconfounds.bad = zeros(61,1);
+%                 %
+%                 Dbc = sconfounds(Dbc, newsconfounds);
+%                 save(Dbc);
+%             elseif subID == 21 && (sessionID == 1 || sessionID == 2)
+%                 Dbc = rmfield(Dbc,'sconfounds');
+%                 newsconfounds.label = chanlabels(D{3});
+%                 newsconfounds.coeff = D{3}.sconfounds;
+%                 newsconfounds.bad = zeros(61,1);
+%                 %
+%                 Dbc = sconfounds(Dbc, newsconfounds);
+%                 save(Dbc);
+%                 
+%             elseif subID == 24 && sessionID == 1
+%                 Dbc = rmfield(Dbc,'sconfounds');
+%                 newsconfounds.label = chanlabels(D{2});
+%                 newsconfounds.coeff = D{2}.sconfounds;
+%                 newsconfounds.bad = zeros(61,1);
+%                 %
+%                 Dbc = sconfounds(Dbc, newsconfounds);
+%                 save(Dbc);
+%                 
+%             elseif subID == 27 && sessionID == 4
+%                 Dbc = rmfield(Dbc,'sconfounds');
+%                 newsconfounds.label = chanlabels(D{3});
+%                 newsconfounds.coeff = D{3}.sconfounds;
+%                 newsconfounds.bad = zeros(61,1);
+%                 %
+%                 Dbc = sconfounds(Dbc, newsconfounds);
+%                 save(Dbc);
+%                 
+%             elseif subID == 33 && (sessionID == 2 || sessionID == 6)
+%                 Dbc = rmfield(Dbc,'sconfounds');
+%                 newsconfounds.label = chanlabels(D{1});
+%                 newsconfounds.coeff = D{1}.sconfounds;
+%                 newsconfounds.bad = zeros(61,1);
+%                 %
+%                 Dbc = sconfounds(Dbc, newsconfounds);
+%                 save(Dbc);
+%                 
+%             end
             
             D{sessionID} = tnueeg_add_spatial_confounds(D{sessionID}, Dbc, options);
             fprintf('\nAdding spatial confounds done.\n\n');

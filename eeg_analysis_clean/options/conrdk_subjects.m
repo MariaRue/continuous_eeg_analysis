@@ -65,10 +65,12 @@ if csdFlag
     paths.(reference).subjectLevelGLM.response.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_response_csd.mat',id));
     paths.(reference).subjectLevelGLM.coherence_responses.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_coherence_responses_csd.mat',id));
     paths.(reference).subjectLevelGLM.vertical_jumps_absolute.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_vertical_jumps_absolute_csd.mat',id));
-    
+    paths.(reference).subjectLevelGLM.response_early_late_false_alarms.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_response_early_late_false_alarms_csd.mat',id));
     
     paths.(reference).singleTrial.appendedData.trialStart = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['csd_trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
     paths.(reference).singleTrial.appendedData.buttonPress = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['csd_response_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
+    
+    
     
     
 else
@@ -80,7 +82,9 @@ else
     
     paths.(reference).subjectLevelGLM.coherence_responses.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_coherence_responses.mat',id));
     paths.(reference).subjectLevelGLM.vertical_jumps_absolute.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_vertical_jumps_absolute.mat',id));
-     
+    
+    
+    paths.(reference).subjectLevelGLM.response_early_late_false_alarms.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_response_early_late_false_alarms.mat',id)); 
     
     %paths.(reference).singleTrial.appendedData.trialStart = fullfile(options.path.EEG.analysis,'test_April_2020',['trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
     %     paths.(reference).singleTrial.appendedData.buttonPress = fullfile(options.path.EEG.analysis,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
@@ -88,6 +92,11 @@ else
     paths.(reference).singleTrial.appendedData.trialStart = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
     %paths.(reference).singleTrial.appendedData.buttonPress = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
     paths.(reference).singleTrial.appendedData.buttonPress = fullfile('/Volumes/crdkData','conventionalEEGAnalysis',reference,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
+    
+    
+    paths.(reference).singleTrial.tf_analysis.appendedData.trialStart = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['tf_trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
+    %paths.(reference).singleTrial.appendedData.buttonPress = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
+    paths.(reference).singleTrial.tf_analysis.appendedData.buttonPress = fullfile('/Volumes/crdkData','conventionalEEGAnalysis',reference,['tf_response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
     
 end
 
@@ -105,6 +114,7 @@ for session = 1:length(details.sessionIDs)
         paths.(reference).continuousPreproc(session).sessionList = fullfile(paths.referenceType.(reference),sprintf('cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
         %
         paths.(reference).singleTrial.preproc(session).preprocSessionList = fullfile(paths.preprocessed.SPM,sprintf('nanart_cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
+        paths.(reference).singleTrial.preproc(session).tf_analysis.preprocSessionList = fullfile(paths.preprocessed.SPM,sprintf('nanart_cfor_tf_analysisfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
         % paths.(reference).singleTrial.preproc(session).preprocSessionList = fullfile(paths.referenceType.(reference),sprintf('fMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
 
     end
@@ -120,6 +130,9 @@ for session = 1:length(details.sessionIDs)
 end
 
 for session = 1:length(details.preproc.sessionIDs)
+    
+    % add something here for tf_analysis_data!!!! 
+    
     details.setFiles(session).names = sprintf('sub%03.0f_sess%03.0f_eeg.set',id,details.preproc.sessionIDs(session));
     details.preproc.convertedFiles(session).names = sprintf('spmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));
     details.preproc.downsampledFiles(session).names = sprintf('dspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));

@@ -3,9 +3,9 @@
 % stimulus
 options = continuous_RDK_set_options('iMac');
 
-%subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
 %subjectList = [ 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
-subjectList = [62:64,66,68,70];
+%subjectList = [62:64,66,68,70];
 
 csdFlag = 1; % 1 for csd transformed data
 reference = 'LMRM';
@@ -15,14 +15,13 @@ for subject = 1:length(subjectList)
     disp('subject: ')
     disp(subID)
     [details,paths] =  conrdk_subjects( subID,options,reference,csdFlag);
-    
+
     for sessionCount = 1:length(details.sessionIDs)
         
         session = details.sessionIDs(sessionCount);
         
    
         D = spm_eeg_load(paths.(reference).continuousPreproc(sessionCount).sessionList);
-        
         
         % load stimulus triggers
         bhv = load(paths.behaviour(sessionCount).sessionList,'B');

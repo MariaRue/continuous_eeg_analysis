@@ -11,7 +11,7 @@ subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51
 
 %subjectList = [ 20,21, 24, 26,  28,  34, 35, 51, 52];
 
-csdFlag = 1; % 1 for csd transformed data
+csdFlag = 0; % 1 for csd transformed data
 reference = 'LMRM';
 
 for subject = 1:length(subjectList)
@@ -160,25 +160,8 @@ toplot = squeeze(avg_across_subjects{r}(channel_ID,:,:));
    
    figure 
    
-   subplot(2,1,1) 
-   hold on
-   plot(options.subjectLevelGLM.(glmFlag).regressors(r).timeBins, late,'g', 'LineWidth', 4)
-   
-   plot(options.subjectLevelGLM.(glmFlag).regressors(r).timeBins, early,'r', 'LineWidth', 4)
-   legend('late', 'early')
-   hold off
-   xlabel('Time relative to event (ms)')
-   tidyfig; 
-   
-
-      subplot(2,1,2) 
-   plot(options.subjectLevelGLM.(glmFlag).regressors(r).timeBins, diffWave, 'LineWidth', 4)
-   title ('late - early diffWave')
-   xlabel('Time relative to event (ms)')
-   hold on
-   plot(options.subjectLevelGLM.(glmFlag).regressors(r).timeBins, zeros(size(early)),'k','LineWidth',4)
-   tidyfig;
-   
+   subplot(3,1,1) 
+   plot(options.subjectLevelGLM.(glmFlag).regressors(r).timeBins)
 %xlim([-240 750])
 %% 
 cl = cbrewer('div','RdBu', 12);

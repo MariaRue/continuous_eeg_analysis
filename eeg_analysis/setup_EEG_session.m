@@ -13,7 +13,7 @@ function [EEGdir,EEGdirdata,scriptdir,nSess,nS] = setup_EEG_session(subj_list)
 %EEGdir= fullfile('/Users/maria/Documents/data/data.continuous_rdk','data','EEG');
 EEGdir = '/Volumes/LaCie/data_preproc';
 EEGdirdata = '/Volumes/LaCie/data/EEG/';
-user = 'MR_iMac';
+user = 'MR';
 switch user
     case 'LH'
         [hd,sd] = get_homedir;

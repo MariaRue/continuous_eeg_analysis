@@ -1,15 +1,17 @@
 % plotting the results obtained with step 3 - continuous GLM
 clear all
 
-subj_list = [ 20,21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 39, 40, 41, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
-%subj_list = [16,18:19];
+subj_list = [ 20,21, 24, 26,  28,  34, 35,   51, 52];
+%subj_list = [16,18:19,20,21,24];
+
+%[7 8 9 11 12]
 
 
 
 
 [EEGdir,EEGdirdata,scriptdir,nSess,nS] = setup_EEG_session(subj_list);
 
-design_matrix_type ='trial_start_button_response_left_minus_right_plus_mean_response_coherence'; % which design matrix was used in step 3?
+design_matrix_type ='jumps_plus_absolute'; % which design matrix was used in step 3?
 flag_32_weird = 0; % flag for one weird subjectin LRP signed ;
 source_density = 0;
 reference_type = 'LM_RM';
@@ -24,7 +26,7 @@ for sj = 1:length(subj_list)
         case 'jumps_and_jump_PEs'
             save_name = sprintf('sub%03.0f_betas_all_reg.mat',subID);
         case 'jumps_plus_absolute'
-            save_name = sprintf('sub%03.0f_betas_all_reg_plus_abs_NEW_IN3.mat',subID);
+            save_name = sprintf('sub%03.0f_betas_all_reg_plus_abs.mat',subID)%'sub%03.0f_betas_all_reg_plus_abs_NEW_IN3.mat',subID);
         case 'jumps_plus_absolute_CSD'
             save_name = sprintf('sub%03.0f_betas_all_reg_plus_abs_CSD.mat',subID);
         case 'LRP_signed'
@@ -66,7 +68,8 @@ for sj = 1:length(subj_list)
     
     switch reference_type
         case 'LM_RM'
-            fname_betas = fullfile(EEGdir, 'preprocessed_EEG_dat_new',save_name);
+            %fname_betas = fullfile(EEGdir, 'preprocessed_EEG_dat_new',save_name);
+            fname_betas = fullfile(EEGdir, 'preprocessed_EEG_dat',save_name);
             load(fname_betas,'betas','time_idx','chanlabels')
         case 'average_electrodes'
             fname_betas = fullfile(EEGdir, 'preprocessed_EEG_dat_new','average_reference',save_name);
@@ -106,6 +109,19 @@ end
 for r = 1:length(time_idx) % loop over regressors
     betas_all_subjects_sessavg{r} = squeeze(mean(betas_all_subjects{r},4));
 end
+
+
+% plot PE for each subject subplot 
+figure
+for sj = 1:11
+    subplot(3,3,sj)
+    data = squeeze(betas_all_subjects_sessavg{3}(sj,40,:,1));
+     smoothed_toplot = conv2(ones(10,1)/10,1,data,'same');
+    plot(time_idx(3).timebins, smoothed_toplot)
+    title(num2str(subj_list(sj)))
+    tidyfig;
+end 
+
 
 %[stat] = perm_test_for_GLM(betas_all_subjects_sessavg,time_idx,chanlabels,EEGdir);
 

@@ -39,6 +39,7 @@ addpath(genpath(options.scriptdir));
 
 options.preproc.fsample = 100; 
 options.preproc.bandpass = [0.1 30];
+options.preproc.bandpass_for_tf_analysis = [0.1 45];
 options.preproc.eyeblink.excwin = 500; 
 options.preproc.artefact.threshold = 100; 
 options.preproc.artefact.excwin = 500; 
@@ -118,6 +119,15 @@ options.subjectLevelGLM.allRegressors(14).nLagsBack = 150;
 options.subjectLevelGLM.allRegressors(14).nLagsForward = 150;
 options.subjectLevelGLM.allRegressors(14).timeBins = (1000/Fs)*[-options.subjectLevelGLM.allRegressors(14).nLagsBack : options.subjectLevelGLM.allRegressors(14).nLagsForward];
 
+options.subjectLevelGLM.allRegressors(15).name = 'false_alarm_responses_late';
+options.subjectLevelGLM.allRegressors(15).nLagsBack = 500;
+options.subjectLevelGLM.allRegressors(15).nLagsForward = 350;
+options.subjectLevelGLM.allRegressors(15).timeBins = (1000/Fs)*[-options.subjectLevelGLM.allRegressors(15).nLagsBack : options.subjectLevelGLM.allRegressors(15).nLagsForward];
+
+options.subjectLevelGLM.allRegressors(16).name = 'false_alarm_responses_early';
+options.subjectLevelGLM.allRegressors(16).nLagsBack = 500;
+options.subjectLevelGLM.allRegressors(16).nLagsForward = 350;
+options.subjectLevelGLM.allRegressors(16).timeBins = (1000/Fs)*[-options.subjectLevelGLM.allRegressors(16).nLagsBack : options.subjectLevelGLM.allRegressors(16).nLagsForward];
 
 
 %-- set GLM types---------------------------------------------------------%
@@ -138,6 +148,9 @@ options.subjectLevelGLM.coherence_responses.name = 'coherence_responses';
 
 options.subjectLevelGLM.vertical_jumps_absolute.regressors = options.subjectLevelGLM.allRegressors([1:7,11:14]);
 options.subjectLevelGLM.coherence_responses.name = 'vertical_jumps_absolute';
+
+options.subjectLevelGLM.response_early_late_false_alarms.regressors = options.subjectLevelGLM.allRegressors([5,6,8,9,15,16]);
+options.subjectLevelGLM.response_early_late_false_alarms.name = 'response_early_late_false_alarms';
 
 %-- set conventional timelocked analysis options-------------------------%
 options.singleTrial.buttonPress.preStim = 7; 

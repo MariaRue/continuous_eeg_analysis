@@ -1,3 +1,5 @@
+options = continuous_RDK_set_options('iMac');
+
 cl = cbrewer('seq','Greens',36);
 cl = cl([6:6:36],:); 
 colormap(cl)

@@ -1,22 +1,26 @@
 
-glmFlag = 'vertical_jumps_absolute';
-vertical = 1; 
+glmFlag = 'response_early_late_false_alarms';
+vertical = 0; 
 options = continuous_RDK_set_options('iMac');
 % load all_responses,stim_streams, mean_stim_streams
-load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_allVertical.mat'); % load behavioural data
 
 if vertical 
+    load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_allVertical.mat'); % load behavioural data
+
  load(load_name,'all_responses','mean_stim_streams','stim_streams','vertical_stim_streams');  
 else 
+   load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_all3.mat'); % load behavioural data
+
   load(load_name,'all_responses','mean_stim_streams','stim_streams');  
+ 
 end 
 
 % subject list
-%subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
+subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
 
-subjectList = [62:64,66,68,70];
+%subjectList = [62:64,66,68,70];
 
-csdFlag = 0; % 1 for csd transformed data
+csdFlag = 1; % 1 for csd transformed data
 reference = 'LMRM';
 
 % loop through subjects
@@ -29,10 +33,11 @@ for subject = 1:length(subjectList)
     [details,paths] =  conrdk_subjects( subID,options,reference,csdFlag);
 
 
-
     subjectMatchedEEGdata = load(paths.(reference).matchedEEG.saveName);
     
     
+    % get mean session lengths for false alarm regressors 
+    [MeanLengthOfInterval,StartOfIntertrialIntervals,EndOfIntertrialIntervals] = calculate_mean_length_of_interval({mean_stim_streams{subject,:}},details);
     
     
     for sessionCount = 1:length(details.sessionIDs) % loop through sessions
@@ -64,7 +69,7 @@ for subject = 1:length(subjectList)
                 end 
                 
             % create all regressor types
-            all_regressors = select_and_prepare_regressor_data_for_subject_level_glm(subID,session,condition,all_responses,stim_streams, mean_stim_streams,vertical,vertical_stim_streams);
+            all_regressors = select_and_prepare_regressor_data_for_subject_level_glm(subID,session,condition,all_responses,stim_streams, mean_stim_streams,vertical,vertical_stim_streams,MeanLengthOfInterval,StartOfIntertrialIntervals,EndOfIntertrialIntervals);
             
             % create designmatrix
             laggedDesignMatrix = create_subject_level_design_matrix_for_convolutional_glm(all_regressors,options,glmFlag);

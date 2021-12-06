@@ -1,5 +1,5 @@
 function [cond_tr_avg_all_cp] = perm_test_for_GLM(betas_sj,time_idx,chanlabels,EEGdir)
-
+keyboard;
 cl = cbrewer('div','RdBu',100);
 % average frequent and rare trial conditions
 for r = 3%1:length(time_idx)
