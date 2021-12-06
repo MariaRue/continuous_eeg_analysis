@@ -19,7 +19,6 @@ numChannels = length(chanlabels);
 % pre-allocate space
 betas = zeros(numChannels,length(laggedDesignMatrix(:,1)));
 
-
 pDM = geninv(laggedDesignMatrix'); %pseudoinvesrse of design matrix
 
 % calculate betas for each regressor and channel 

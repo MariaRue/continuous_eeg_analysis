@@ -37,7 +37,7 @@ end
 
 
 
-%         plot(nMatch); disp(b); pause; % this reveals a clear 'spike' in every session -
+         plot(nMatch); pause; % this reveals a clear 'spike' in every session -
 % where the triggers in the EEG data match the behavioural triggers
 %but a bit strangely, it doesn't always seem
 %to be at 500 - it is sometimes up to half a

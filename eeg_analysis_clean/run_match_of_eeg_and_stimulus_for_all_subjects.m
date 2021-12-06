@@ -1,7 +1,7 @@
 % this script runs across subjects and tries to find the optimal match of
 % EEG samples and triggers recorded with the behavioural data for each
 % stimulus
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 
 %subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
 %subjectList = [ 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];

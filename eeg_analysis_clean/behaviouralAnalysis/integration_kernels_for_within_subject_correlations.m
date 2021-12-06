@@ -1,8 +1,10 @@
 
 %% add paths
-addpath(genpath('/Users/maria/Documents/Matlab/cbrewer'))
-addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
-EEGpreproc = '/Volumes/crdkData/preprocessedData/behaviour';  % path to behav data all subjs
+%addpath(genpath('/Users/maria/Documents/Matlab/cbrewer'))
+%addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
+options = continuous_RDK_set_options('LTHiMac');
+
+EEGpreproc = options.path.preproc.behaviour;  % path to behav data all subjs
 
 
 condition = {'Tr frequent TR short', 'Tr frequent Tr short','Tr rare Tr short', 'Tr rare Tr long'};
@@ -14,13 +16,19 @@ cl = cl([2 4 12 10],:);
 load_name = fullfile(EEGpreproc,'behav_data_all_subjs_all3');
 load(load_name)
 
+%% 
+
+subj_list_behav = unique(all_responses(:,12));
+
+%%
+
 lags = 500; % frames back in time that are leading up to FA
 
 
 which_responses = 'false alarms';  % calculating integration kernel for either FA button presses or button presses during trials options: 'false alarms' or 'trials', '3sec_rts',
 
 with_coherence = 'without coherence level'; % if we want to know the coherence levels for the trials version
-nS = max(all_responses(:,11)); % number of subjects
+nS = length(unique(all_responses(:,12))); % number of subjects
 
 coherence = [0.3 0.4 0.5];
 
@@ -379,7 +387,7 @@ for con = 1:4
     for sj = 1:size(mean_coherences,3)
         model{con,sj} = eval_exp(pnew_sj(con,:,sj),t_sj{con,sj});
         subplot(7,4,sj)
-        title(['subject', ' ', num2str(sj)])
+        title(['subject', ' ', num2str(subj_list_behav(sj))])
         if sj == 1
             title(condition{con})
             ylabel('mean coherence')

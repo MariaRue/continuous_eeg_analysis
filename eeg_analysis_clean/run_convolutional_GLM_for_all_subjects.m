@@ -1,7 +1,7 @@
 
 glmFlag = 'vertical_jumps_absolute';
 vertical = 1; 
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 % load all_responses,stim_streams, mean_stim_streams
 load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_allVertical.mat'); % load behavioural data
 

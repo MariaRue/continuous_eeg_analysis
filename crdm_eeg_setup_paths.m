@@ -25,6 +25,16 @@ switch options.user
         addpath(fullfile(pathToolboxes, 'cbrewer'));
         addpath(fullfile(pathToolboxes, 'shadedErrorBar'));
         
+    case 'LTH_iMac'
+        pathToolboxes = fullfile(pathProject, '..', 'toolboxesForAnalysis');
+        % NOTE: NEVER add SPM with subfolders to your path, since it creates
+        % conflicts with Matlab core functions, e.g., uint16
+        addpath(fullfile(pathToolboxes, 'spm12'));
+        addpath(fullfile(pathToolboxes, 'eeglab14_1_2b'));
+        addpath(fullfile(pathToolboxes, 'fieldtrip'));
+        addpath(fullfile(pathToolboxes, 'cbrewer'));
+        addpath(fullfile(pathToolboxes, 'shadedErrorBar'));
+        
     case {'iMac', 'Pro'}
         % set paths for fieldtrip, spm and cbrewer
         addpath('/Users/maria/Documents/matlab/continuous_eeg_analysis/spm12');
@@ -32,6 +42,7 @@ switch options.user
         addpath('/Users/maria/Documents/MATLAB/fieldtrip'); % fieldtrip tool box to analyse data
         addpath(genpath('/Users/maria/Documents/MATLAB/cbrewer'));
         addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
+        
 end
 
 % initialise toolboxes

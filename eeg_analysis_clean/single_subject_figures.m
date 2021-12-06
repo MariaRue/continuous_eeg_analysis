@@ -3,7 +3,7 @@ addpath(genpath(pwd))
 
 glmFlag = 'jumps_absolute';
 
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 
 % subject list
 subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
@@ -47,15 +47,15 @@ end
 channel_ID = find(strcmp( betaSubject.chanlabels,'CPZ'));
 
 
-RegressorsToPlot = betas_all_subjects_sessavg{1}; % coherence jump = 1, PE = 3 
+RegressorsToPlot = betas_all_subjects_sessavg{3}; % coherence jump = 1, PE = 3 
 
 
 
 for sj = 1:24
     
-  topo =  conv2(ones(10,1)/10,1,squeeze(RegressorsToPlot(sj,channel_ID,:,1)),'same');
+topo =  conv2(ones(10,1)/10,1,squeeze(RegressorsToPlot(sj,channel_ID,:,1)),'same');
 subplot(6,4,sj)
-plot(options.subjectLevelGLM.(glmFlag).regressors(1).timeBins, topo)
+plot(options.subjectLevelGLM.(glmFlag).regressors(3).timeBins, topo)
 tidyfig;
 
 end 

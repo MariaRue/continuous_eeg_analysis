@@ -3,39 +3,65 @@ function options = continuous_RDK_set_options(mac)
 Fs = 100; 
 
 options.conditionLabels = {'Trials frequent & short', 'Trials frequent & long', 'Trials rare & short', 'Trials rare & long' };
-% set paths for fieldtrip, spm and cbrewer
-addpath('/Users/maria/Documents/matlab/continuous_eeg_analysis/spm12');
-addpath('/Users/maria/Documents/MATLAB/eeglab14_1_2b/');
-addpath('/Users/maria/Documents/MATLAB/fieldtrip'); % fieldtrip tool box to analyse data
- addpath(genpath('/Users/maria/Documents/MATLAB/cbrewer'));
-         addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
 
-ft_defaults;
-%spm('defaults','eeg')
 % set paths for stimulus matched EEG data - we still need to define later
 % whether we want csd transformed data or not, in addition, these directory
 % structures are not very tidy and I need to delete stuff - I have several
 % copies of everything and the naming of directories between average and LM
-%  RM references is not very consistent 
+%  RM references is not very consistent
 switch mac
     case 'iMac'
-%options.path.EEG.analysis = '/Users/maria/Documents/data/data_preproc';
-options.path.EEG.analysis =  '/Volumes/crdkData';
-options.path.EEG.subjects = fullfile(options.path.EEG.analysis,'rawData','experiment');
-options.path.preproc.behaviour = fullfile('/Volumes/crdkData','preprocessedData','behaviour');
-options.path.EEG.raw = '/Volumes/crdkData';
+        % set paths for fieldtrip, spm and cbrewer
+        addpath('/Users/maria/Documents/matlab/continuous_eeg_analysis/spm12');
+        addpath('/Users/maria/Documents/MATLAB/eeglab14_1_2b/');
+        addpath('/Users/maria/Documents/MATLAB/fieldtrip'); % fieldtrip tool box to analyse data
+        addpath(genpath('/Users/maria/Documents/MATLAB/cbrewer'));
+        addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
+
+        
+        %options.path.EEG.analysis = '/Users/maria/Documents/data/data_preproc';
+        options.path.EEG.analysis =  '/Volumes/crdkData';
+        options.path.EEG.subjects = fullfile(options.path.EEG.analysis,'rawData','experiment');
+        options.path.preproc.behaviour = fullfile('/Volumes/crdkData','preprocessedData','behaviour');
+        options.path.EEG.raw = '/Volumes/crdkData';
     case 'Pro'
+        % set paths for fieldtrip, spm and cbrewer
+        addpath('/Users/maria/Documents/matlab/continuous_eeg_analysis/spm12');
+        addpath('/Users/maria/Documents/MATLAB/eeglab14_1_2b/');
+        addpath('/Users/maria/Documents/MATLAB/fieldtrip'); % fieldtrip tool box to analyse data
+        addpath(genpath('/Users/maria/Documents/MATLAB/cbrewer'));
+        addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
         
+        %options.path.EEG.analysis =  '/Volumes/LaCie/daten_fuer_laptop';
+        options.path.EEG.analysis =  '/Volumes/crdkData';
+        options.path.EEG.subjects = '/Volumes/LaCie/daten_fuer_laptop';
         
-%options.path.EEG.analysis =  '/Volumes/LaCie/daten_fuer_laptop';
-options.path.EEG.analysis =  '/Volumes/crdkData';
-options.path.EEG.subjects = '/Volumes/LaCie/daten_fuer_laptop';
+    case 'LTHiMac'
+        % set paths for fieldtrip, spm and cbrewer
+        [hd,sd] = get_homedir;
+        
+        addpath(fullfile(hd,'matlab','hidden_from_matlab','spm12'));
+        addpath(fullfile(hd,'matlab','hidden_from_matlab','eeglab2020_0'));
+        addpath(fullfile(hd,'matlab','hidden_from_matlab','fieldtrip')); % fieldtrip tool box to analyse data
+        addpath(fullfile(hd,'matlab','downloaded','cbrewer'));
+        addpath(fullfile(hd,'matlab','downloaded','shadedErrorBar'));
+        
+        options.path.EEG.analysis =  fullfile(sd,'projects','maria_RDM');
+        options.path.EEG.subjects = fullfile(sd,'projects','maria_RDM','rawData','experiment');
+        options.path.preproc.behaviour = fullfile(sd,'projects','maria_RDM','preprocessedData','behaviour');
+        options.path.EEG.raw = fullfile(sd,'Users','laurence','scratch','projects','maria_RDM');
+        
+    otherwise
+        error('unrecognised computer');
+end
 
 
-end 
+ft_defaults;
+%spm('defaults','eeg');
+
 options.scriptdir = '/Users/maria/Documents/MATLAB/continuous_eeg_analysis/eeg_analysis_clean';
 addpath(genpath(options.scriptdir));
-% this has to be completed with folder for subject and if averaged 
+% this has to be completed with folder for subject and if averaged
 
 options.preproc.fsample = 100; 
 options.preproc.bandpass = [0.1 30];

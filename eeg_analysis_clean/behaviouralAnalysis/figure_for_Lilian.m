@@ -1,6 +1,6 @@
-addpath(genpath('/Users/maria/Documents/Matlab/cbrewer'))
-addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
-EEGpreproc = '/Volumes/crdkData/preprocessedData/behaviour';  % path to behav data all subjs
+%addpath(genpath('/Users/maria/Documents/Matlab/cbrewer'))
+%addpath('/Users/maria/Documents/MATLAB/raacampbell-shadedErrorBar-9b19a7b')
+EEGpreproc = options.path.preproc.behaviour;  % path to behav data all subjs
 
 
 condition = {'Tr frequent TR short', 'Tr frequent Tr short','Tr rare Tr short', 'Tr rare Tr long'};
@@ -15,7 +15,7 @@ load(load_name)
 lags = 500; % frames back in time that are leading up to FA
 
 
-which_responses = 'false alarms';  % calculating integration kernel for either FA button presses or button presses during trials options: 'false alarms' or 'trials', '3sec_rts',
+which_responses = '3sec_rts';  % calculating integration kernel for either FA button presses or button presses during trials options: 'false alarms' or 'trials', '3sec_rts',
 
 
 with_coherence = 'without coherence level'; % if we want to know the coherence levels for the trials version
