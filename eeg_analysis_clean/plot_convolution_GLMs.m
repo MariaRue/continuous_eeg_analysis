@@ -3,13 +3,13 @@ addpath(genpath(pwd))
 
 glmFlag = 'jumps_absolute';
 
-options = continuous_RDK_set_options('LTHiMac');
+options = continuous_RDK_set_options('iMac');
 
 % subject list
 subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
 %subjectList = [62:64,66,68,70]; % vertical motion only 
 
-csdFlag = 0; % 1 for csd transformed data
+csdFlag = 1; % 1 for csd transformed data
 if csdFlag %temporary fix for bug in first subjects' CSD transform
     subjectList(1) = [];
 end
@@ -48,8 +48,8 @@ end
 for r = 1:length(options.subjectLevelGLM.(glmFlag).regressors) % loop over regressors
     betas_all_subjects_sessavg{r} = squeeze(mean(betas_all_subjects{r},4));
 end
-
-%[cond_tr_all_avg_cp1] =perm_test_for_GLM(betas_all_subjects_sessavg,options.subjectLevelGLM.(glmFlag).regressors,betaSubject.chanlabels);
+%%
+[cond_tr_all_avg_cp1] =perm_test_for_GLM(betas_all_subjects_sessavg,options.subjectLevelGLM.(glmFlag).regressors,betaSubject.chanlabels);
 
 %% permutation testing - doesn't seem to work for now (LH 14/10/2021)
 %{
@@ -133,7 +133,7 @@ channel_ID = find(strcmp( betaSubject.chanlabels,'CZ'));
 cl = cbrewer('div','RdBu', 12);
 cl = cl([2 4 12 10 1 3],:);
 
-for r = 4; %length(options.subjectLevelGLM.(glmFlag).regressors) % loop through regressors
+for r = 1 : 4 %length(options.subjectLevelGLM.(glmFlag).regressors) % loop through regressors
     figure;
     
     toplot = squeeze(avg_across_subjects{r}(channel_ID,:,:));
@@ -188,11 +188,11 @@ fig_id = 1; % subplot index
 start_times = [250  ]; %start times of plotting windows, in ms
 end_times   = [350 ]; %end times of plotting windows, in ms
 
-for r = 3% 1:length(time_idx) % loop through regressors
+for r = 1% 1:length(time_idx) % loop through regressors
     ft_struct.avg = mean(avg_across_subjects{r},3); % mean across conditions
     ft_struct.time = options.subjectLevelGLM.(glmFlag).regressors(r).timeBins; % time window
     
-    cax_lim = max(abs(prctile(squash(ft_struct.avg(1:60,:)),[1 99])));
+    %cax_lim = max(abs(prctile(squash(ft_struct.avg(1:60,:)),[1 99])));
     
     %first subplot is displaying title of regressor
     subplot(1,length(start_times)+1,fig_id);

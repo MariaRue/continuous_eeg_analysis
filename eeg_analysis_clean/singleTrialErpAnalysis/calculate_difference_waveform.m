@@ -4,11 +4,12 @@ for subject = 1:length(data_cp_all1)
     
     cfg = [];
     cfg.operation = 'subtract';
-   cfg.parameter = 'avg'; 
-
+    cfg.parameter = 'avg';
+    
     dat1_vs_dat2{subject} = ft_math(cfg,data_cp_all1{subject},data_cp_all2{subject});
     
-end 
+end
+
 cfg = [];
 dat1_vs_dat2_avg = ft_timelockgrandaverage(cfg, dat1_vs_dat2{:} );
 % calculate se
@@ -18,4 +19,4 @@ dat1_vs_dat2_avg.se = se;
 
 
 
-end 
+end
