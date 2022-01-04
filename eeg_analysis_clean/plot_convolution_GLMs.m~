@@ -117,6 +117,9 @@ allTau_reduced = allTau(ai,:);
 allTau_reduced_dm = mean(allTau_reduced,2);
 allTau_reduced_dm = allTau_reduced_dm - mean(allTau_reduced_dm); 
 
+[~,ai] = sort(allTau_reduced_dm);sl_sorted = [1:24]'; sl_sorted(ai) = sl_sorted; %to use ranks
+sl_sorted_dm = sl_sorted - mean(sl_sorted);
+
 %% run group level GLM - could redo this so that we include the contrasts between different conditions in the GLM
 
 dm = [ones(nS,1)];
@@ -130,28 +133,21 @@ for r = 1:length(options.subjectLevelGLM.(glmFlag).regressors) % loop through re
     options.conditionLabels{6} = 'Long minus short';
     [cope,~,tstat] = ols(data(:,:),dm,eye(size(dm,2))); %run GLM across participants 
     
-    avg_across_subjects{r} = reshape(cope,[size(data,2),size(data,3), size(data,4)]);
-    tstat_across_subjects{r} = reshape(tstat,[size(data,2),size(data,3), size(data,4)]);
+    avg_across_subjects{r} = reshape(cope,[size(dm,2) size(data,2),size(data,3), size(data,4)]);
+    tstat_across_subjects{r} = reshape(tstat,[size(dm,2) size(data,2),size(data,3), size(data,4)]);
 end
 
 %% run group level spearman's correlation with sorted taus
-
-[~,ai] = sort(allTau_reduced_dm);sl_sorted = [1:24]'; sl_sorted(ai) = sl_sorted; %to use ranks
-sl_sorted_dm = sl_sorted - mean(sl_sorted);
 
 for r = 1:length(options.subjectLevelGLM.(glmFlag).regressors) % loop through regressors
     data = betas_all_subjects_sessavg{r};
     
     %first, rank data across subjects
     data_ranked = data(:,:);
+    data
     [~,ai] = sort(data_ranked,'descend');
-    tmp = 1:nS;
-    for i = 1:size(data_ranked,2); 
-        data_ranked(ai(:,i),i) = tmp; 
-    end
-    rrr = corr(data_ranked,sl_sorted_dm);
+    tmp = repmat([1:24]',1,size(data_ranked,2));
     
-    corr_across_subjects{r} = reshape(rrr,[size(data,2),size(data,3), size(data,4)]);
 end
 
 %% plot grand average response at CPz for all regressors
@@ -165,7 +161,7 @@ cl = cl([2 4 12 10 1 3],:);
 for r = 1 : 4 %length(options.subjectLevelGLM.(glmFlag).regressors) % loop through regressors
     figure;
     
-    toplot = squeeze(corr_across_subjects{r}(channel_ID,:,:));
+    toplot = squeeze(tstat_across_subjects{r}(2,channel_ID,:,:));
     smoothed_toplot = conv2(ones(10,1)/10,1,toplot,'same');
     %plot(time_idx(r).timebins,smoothed_toplot') %each line is now one subject
     for con = 1:4 % loop through conditions and plot in different colours

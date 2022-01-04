@@ -409,8 +409,7 @@ for con = 1:4
 end
 %% 
 %maria was originally removing subjects with less than 20 responses and
-%>2SD away from mean. I will keep them in (and do rank correlations where
-%needed)
+%>2SD away from mean. I will keep them in (and do rank correlations
 tau_short = squeeze(pnew_sj(1,2,:));
 %tau_short(r) = []; %removes subjects with <20 responses
 tau_long = squeeze(pnew_sj(2,2,:));
@@ -475,33 +474,33 @@ tau_rare(unique(sj_1_amp)) = [];
 
 figure
 
-subplot(2,2,1)
-plot(tau_short,tau_long,'kd','LineWidth',1,'MarkerSize',8)
-title([condition{con},' ','R= ',num2str(round(R_tau_len(1,2),2)),' ','P= ', num2str(P_tau_len(1,2),2)])
-xlabel('short')
-ylabel('long')
-tidyfig;
+    subplot(2,2,1)
+    plot(tau_short,tau_long,'kd','LineWidth',1,'MarkerSize',8)
+    title([condition{con},' ','R= ',num2str(round(R_tau_len(1,2),2)),' ','P= ', num2str(P_tau_len(1,2),2)])
+    xlabel('short')
+    ylabel('long')
+    tidyfig;
+    
+    subplot(2,2,2)
+    plot(amp_short,amp_long,'kd','LineWidth',1,'MarkerSize',8)
+    title([condition{con},' ','R= ',num2str(round(R_amp_len(1,2),2)),' ','P= ', num2str(P_amp_len(1,2),2)])
+    xlabel('short')
+    ylabel('long')
+    tidyfig;
+    
+    subplot(2,2,3)
+    plot(tau_freq,tau_rare,'kd','LineWidth',1,'MarkerSize',8)
+    title([condition{con},' ','R= ',num2str(round(R_tau_freq(1,2),2)),' ','P= ', num2str(P_tau_freq(1,2),2)])
+    xlabel('frequent')
+    ylabel('rare')
+    tidyfig;
 
-subplot(2,2,2)
-plot(amp_short,amp_long,'kd','LineWidth',1,'MarkerSize',8)
-title([condition{con},' ','R= ',num2str(round(R_amp_len(1,2),2)),' ','P= ', num2str(P_amp_len(1,2),2)])
-xlabel('short')
-ylabel('long')
-tidyfig;
-
-subplot(2,2,3)
-plot(tau_freq,tau_rare,'kd','LineWidth',1,'MarkerSize',8)
-title([condition{con},' ','R= ',num2str(round(R_tau_freq(1,2),2)),' ','P= ', num2str(P_tau_freq(1,2),2)])
-xlabel('frequent')
-ylabel('rare')
-tidyfig;
-
-subplot(2,2,4)
-plot(amp_freq,amp_rare,'kd','LineWidth',1,'MarkerSize',8)
-title([condition{con},' ','R= ',num2str(round(R_amp_freq(1,2),2)),' ','P= ', num2str(P_amp_freq(1,2),2)])
-xlabel('frequent')
-ylabel('rare')
-tidyfig;
+    subplot(2,2,4)
+    plot(amp_freq,amp_rare,'kd','LineWidth',1,'MarkerSize',8)
+    title([condition{con},' ','R= ',num2str(round(R_amp_freq(1,2),2)),' ','P= ', num2str(P_amp_freq(1,2),2)])
+    xlabel('frequent')
+    ylabel('rare')
+    tidyfig;
 
 %% helper function for exp fit
 
