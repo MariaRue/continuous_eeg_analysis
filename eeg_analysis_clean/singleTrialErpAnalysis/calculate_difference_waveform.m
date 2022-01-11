@@ -1,4 +1,4 @@
-function [dat1_vs_dat2_avg] = calculate_difference_waveform(data_cp_all1, data_cp_all2)
+function [dat1_vs_dat2_avg, dat1_vs_dat2] = calculate_difference_waveform(data_cp_all1, data_cp_all2)
 
 for subject = 1:length(data_cp_all1)
     
