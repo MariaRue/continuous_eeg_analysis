@@ -16,7 +16,7 @@ reference = 'LMRM';
 nS = length(subjectList); %number of subjects
 
 electrodesForPermTest = {'CPz', 'CP1', 'CP2'};
-regressorIDx = 6; % correct response
+
 
 jumpEvent = 1; %flag that defines specific variables for jump Event regressors or response locked ones ag
 
@@ -40,24 +40,6 @@ VertJumpRegressorIDx = 8;
 TimeBinsRegressor = options.subjectLevelGLM.(glmFlag).regressors(HorzJumpRegressorIDx).timeBins/1000; %in seconds because permutation test also in seconds
 
 [SignificantTimePoints.Jump] = get_significant_labels_for_plotting_ERPs(stats.Jump, TimeBinsRegressor);
-%%
-HorzCohLevelRegressorIDx = 2;
-[HorzCohLevelSelectedData, HorzCohLevelAllDataAvg, ~, ~, ~] = ...
-    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-    subjectList, csdFlag, reference, nS, electrodesForPermTest, HorzCohLevelRegressorIDx, jumpEvent);
-
-VertCohLevelRegressorIDx = 9;
-[VertCohLevelSelectedData, VertCohLevelAllDataAvg, ~, ~, ~] = ...
-    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-    subjectList, csdFlag, reference, nS, electrodesForPermTest, VertCohLevelRegressorIDx, jumpEvent);
-
-[diffWave.Avg.diffWaveCohLevel, ~] = calculate_difference_waveform(HorzCohLevelSelectedData.subjectLevel.All, VertCohLevelSelectedData.subjectLevel.All);
-
-[stats.CohLevel] = permutation_testGLM(VertCohLevelSelectedData.subjectLevel.All, HorzCohLevelSelectedData.subjectLevel.All, jumpEvent);
-
-TimeBinsRegressor = options.subjectLevelGLM.(glmFlag).regressors(HorzCohLevelRegressorIDx).timeBins/1000; %in seconds because permutation test also in seconds
-
-[SignificantTimePoints.CohLevel] = get_significant_labels_for_plotting_ERPs(stats.CohLevel, TimeBinsRegressor);
 
 %%
 HorzPERegressorIDx = 3;
@@ -90,27 +72,8 @@ TimeBinsRegressor = options.subjectLevelGLM.(glmFlag).regressors(VertPERegressor
 
 [SignificantTimePoints.PE] = get_significant_labels_for_plotting_ERPs(stats.PE, TimeBinsRegressor);
 
-%%
-HorzAbsoluteStimRegressorIDx = 4;
-[HorzAbsoluteStimSelectedData, HorzAbsoluteStimAllDataAvg, ~, ~, ~] = ...
-    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-    subjectList, csdFlag, reference, nS, electrodesForPermTest, HorzAbsoluteStimRegressorIDx, jumpEvent);
 
-VertAbsoluteStimRegressorIDx = 11;
-[VertAbsoluteStimSelectedData, VertAbsoluteStimAllDataAvg, ~, ~, ~] = ...
-    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-    subjectList, csdFlag, reference, nS, electrodesForPermTest, VertAbsoluteStimRegressorIDx, jumpEvent);
-
-[diffWave.Avg.diffWaveAbsoluteStim, ~] = calculate_difference_waveform(HorzAbsoluteStimSelectedData.subjectLevel.All, VertAbsoluteStimSelectedData.subjectLevel.All);
-
-
-[stats.AbsoluteStim] = permutation_testGLM(VertAbsoluteStimSelectedData.subjectLevel.All, HorzAbsoluteStimSelectedData.subjectLevel.All, jumpEvent);
-
-TimeBinsRegressor = options.subjectLevelGLM.(glmFlag).regressors(HorzAbsoluteStimRegressorIDx).timeBins/1000; %in seconds because permutation test also in seconds
-
-[SignificantTimePoints.AbsoluteStim] = get_significant_labels_for_plotting_ERPs(stats.AbsoluteStim, TimeBinsRegressor);
-
-%%
+%% 
 
 figure 
 set(gcf, 'PaperUnits', 'inches');
@@ -118,25 +81,25 @@ set(gcf, 'PaperUnits', 'inches');
 set(gcf, 'Position',  [200, 1600, 1000, 1000]);
 
 %%
-subplot(7,4,2)
+subplot(3,4,2)
 text(0,0.3,'horizontal motion','FontSize',20);axis off
 
-subplot(7,4,3)
+subplot(3,4,3)
 text(0,0.3,'vertical motion','FontSize',20);axis off
 
 %% Jump Regressor
-subplot(7,4,5)
+subplot(3,4,5)
 text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzJumpRegressorIDx).name,'FontSize',20);axis off
 
-subplot(7,4,6)
+subplot(3,4,6)
 create_topo_plot(HorzJumpAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.JumpRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
 tidyfig; 
 
-subplot(7,4,7)
+subplot(3,4,7)
 create_topo_plot(VertJumpAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.JumpRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
 tidyfig; 
 
-subplot(7,4,8)
+subplot(3,4,8)
 hold on
 
 create_ERP_plot(HorzJumpSelectedData.Average.All.time, HorzJumpSelectedData.Average.All.avg, diffWave.Avg.diffWaveJump.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
@@ -161,53 +124,20 @@ tidyfig;
 
 hold off
 
-%% Coh Level
-subplot(7,4,9)
-text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzCohLevelRegressorIDx).name,'FontSize',20);axis off
-
-subplot(7,4,10)
-create_topo_plot(HorzCohLevelAllDataAvg,0.2, 0.3, plotVariables.figure3.topoPlot.CohLevelRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,11)
-create_topo_plot(VertCohLevelAllDataAvg,0.2, 0.3, plotVariables.figure3.topoPlot.CohLevelRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,12)
-hold on
-
-create_ERP_plot(HorzCohLevelSelectedData.Average.All.time, HorzCohLevelSelectedData.Average.All.avg, diffWave.Avg.diffWaveCohLevel.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
-create_ERP_plot(VertCohLevelSelectedData.Average.All.time, VertCohLevelSelectedData.Average.All.avg, diffWave.Avg.diffWaveCohLevel.se, plotVariables.figure3.ERP.colour(2,:),plotVariables.figure3.LineWidth)
-
-if any(SignificantTimePoints.CohLevel)
-
-    plot_significant_timepoints(HorzCohLevelSelectedData.Average.All.time, SignificantTimePoints.CohLevel, plotVariables.figure3.CohLevelRegressor.ylim(2))
-
-end 
-
-xlim(plotVariables.figure3.xlim)
-ylim(plotVariables.figure3.CohLevelRegressor.ylim)
-
-xlabel(plotVariables.figure3.xlabel)
-ylabel(plotVariables.figure3.ylabel)
-
-tidyfig;
-
-hold off
 
 %% PE
-subplot(7,4,13)
+subplot(3,4,9)
 text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzPERegressorIDx).name,'FontSize',20);axis off
 
-subplot(7,4,14)
+subplot(3,4,10)
 create_topo_plot(HorzPEAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.PERegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
 tidyfig; 
 
-subplot(7,4,15)
+subplot(3,4,11)
 create_topo_plot(VertPEAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.PERegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
 tidyfig; 
 
-subplot(7,4,16)
+subplot(3,4,12)
 hold on
 
 create_ERP_plot(HorzPESelectedData.Average.All.time, HorzPESelectedData.Average.All.avg, diffWave.Avg.diffWavePE.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
@@ -228,59 +158,6 @@ ylabel(plotVariables.figure3.ylabel)
 tidyfig;
 
 hold off
-
-%% absolute stimulus 
-
-subplot(7,4,17)
-text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzAbsoluteStimRegressorIDx).name,'FontSize',20);axis off
-
-subplot(7,4,18)
-create_topo_plot(HorzAbsoluteStimAllDataAvg,0.1, 0.2, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,19)
-create_topo_plot(VertAbsoluteStimAllDataAvg,0.1, 0.2, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,22)
-create_topo_plot(HorzAbsoluteStimAllDataAvg,0.35, 0.45, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,23)
-create_topo_plot(VertAbsoluteStimAllDataAvg,0.35, 0.45, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,24)
-hold on
-
-create_ERP_plot(HorzAbsoluteStimSelectedData.Average.All.time, HorzAbsoluteStimSelectedData.Average.All.avg, diffWave.Avg.diffWaveAbsoluteStim.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
-create_ERP_plot(VertAbsoluteStimSelectedData.Average.All.time, VertAbsoluteStimSelectedData.Average.All.avg, diffWave.Avg.diffWaveAbsoluteStim.se, plotVariables.figure3.ERP.colour(2,:),plotVariables.figure3.LineWidth)
-
-if any(SignificantTimePoints.AbsoluteStim)
-
-    plot_significant_timepoints(HorzAbsoluteStimSelectedData.Average.All.time, SignificantTimePoints.AbsoluteStim, plotVariables.figure3.AbsoluteStimRegressor.ylim(2))
-
-end 
-
-
-
-xlim(plotVariables.figure3.xlim)
-ylim(plotVariables.figure3.AbsoluteStimRegressor.ylim)
-
-xlabel(plotVariables.figure3.xlabel)
-ylabel(plotVariables.figure3.ylabel)
-
-tidyfig;
-
-hold off
-
-subplot(7,4,26)
-create_topo_plot(HorzAbsoluteStimAllDataAvg,0.45, 0.55, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,27)
-create_topo_plot(VertAbsoluteStimAllDataAvg,0.45, 0.55, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
 
 
 end
