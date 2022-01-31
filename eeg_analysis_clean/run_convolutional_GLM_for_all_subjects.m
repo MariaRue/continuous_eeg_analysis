@@ -1,20 +1,21 @@
 
-glmFlag = 'vertical_jumps_absolute';
-vertical = 1; 
-options = continuous_RDK_set_options('LTHiMac');
+glmFlag = 'all_regressors';
+vertical = 0; 
+options = continuous_RDK_set_options('iMac');
 % load all_responses,stim_streams, mean_stim_streams
-load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_allVertical.mat'); % load behavioural data
+load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_all3.mat'); % load behavioural data
 
 if vertical 
  load(load_name,'all_responses','mean_stim_streams','stim_streams','vertical_stim_streams');  
 else 
   load(load_name,'all_responses','mean_stim_streams','stim_streams');  
+keyboard; 
 end 
 
 % subject list
-%subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
+subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
 
-subjectList = [62:64,66,68,70];
+%subjectList = [62:64,66,68,70];
 
 csdFlag = 0; % 1 for csd transformed data
 reference = 'LMRM';

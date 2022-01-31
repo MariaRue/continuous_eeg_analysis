@@ -1,9 +1,10 @@
 function make_figure2(plotVariables,options) 
 
 
+%%% change regressor indices when using the response or response_coherence
+%%% GLM!!!
 
-
-glmFlag = 'jumps_absolute';
+glmFlag = 'all_regressors';
 
 
 
@@ -19,8 +20,8 @@ end
 reference = 'LMRM';
 nS = length(subjectList); %number of subjects
 
-electrodesForPermTest = {'CPz', 'CP1', 'CP2'};
-regressorIDx = 6; % correct response 
+electrodesForPermTest = {'CPz', 'CP1', 'CP2', 'C1', 'Cz', 'C2'};
+corrResponseRegressorIDx = 6; % correct response 
 
 jumpEvent = 0; %flag that defines specific variables for jump Event regressors or response locked ones ag
 
@@ -28,15 +29,16 @@ jumpEvent = 0; %flag that defines specific variables for jump Event regressors o
 
 [corrResponseSelectedData, corrResponseAllDataAvg, corrResponseDiffWave, corrResponseStats, corrResponseSignificantTimePoints] = ...
          prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-         subjectList, csdFlag, reference, nS, electrodesForPermTest, regressorIDx, jumpEvent);
+         subjectList, csdFlag, reference, nS, electrodesForPermTest, corrResponseRegressorIDx, jumpEvent);
 
 %% prepare data for false alarms
 
-regressorIDx = 7;
+falseAlarmRegressorIDx = 7;
 [falseAlarmSelectedData, falseAlarmAllDataAvg, falseAlarmDiffWave, falseAlarmStats, falseAlarmSignificantTimePoints] = ...
          prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-         subjectList, csdFlag, reference, nS, electrodesForPermTest, regressorIDx, jumpEvent);
+         subjectList, csdFlag, reference, nS, electrodesForPermTest, falseAlarmRegressorIDx, jumpEvent);
 
+    
 %% plot 
 figure (2) 
 set(gcf, 'PaperUnits', 'inches');
@@ -54,7 +56,7 @@ create_ERP_plot(corrResponseSelectedData.Average.Rare.time, corrResponseSelected
 % plot significant time points, if there are any 
 if any(corrResponseSignificantTimePoints.Frequency)
 
-    plot_significant_timepoints(corrResponseSelectedData.Average.Freq.time,corrResponseSignificantTimePoints.Frequency)
+    plot_significant_timepoints(corrResponseSelectedData.Average.Freq.time,corrResponseSignificantTimePoints.Frequency, plotVariables.figure2.ERP.ylim(2))
 
 end 
    
@@ -82,7 +84,7 @@ create_ERP_plot(corrResponseSelectedData.Average.Long.time, corrResponseSelected
 % plot significant time points, if there are any 
 if any(corrResponseSignificantTimePoints.Length)
 
-    plot_significant_timepoints(corrResponseSelectedData.Average.Short.time,corrResponseSignificantTimePoints.Length)
+    plot_significant_timepoints(corrResponseSelectedData.Average.Short.time,corrResponseSignificantTimePoints.Length, plotVariables.figure2.ERP.ylim(2))
 
 end 
    
@@ -231,7 +233,7 @@ hold off
     %first subplot is displaying title of regressor
     
     subplot(4,3,3);
-    text(0.5,0.5,options.subjectLevelGLM.(glmFlag).regressors(2).name,'FontSize',20);axis off
+    text(0.5,0.5,options.subjectLevelGLM.(glmFlag).regressors(corrResponseRegressorIDx).name,'FontSize',20);axis off
     
     
     
@@ -239,12 +241,12 @@ hold off
     create_topo_plot(corrResponseAllDataAvg,-0.5, 0, plotVariables.figure2.topoPlot.zlim, electrodesForPermTest, plotVariables.figure1.topoPlot.colour)
     
 
-%% topo plot correct responses 
+%% topo plot false alarm responses 
 
     %first subplot is displaying title of regressor
     
     subplot(4,3,9);
-    text(0.5,0.5,options.subjectLevelGLM.(glmFlag).regressors(3).name,'FontSize',20);axis off
+    text(0.5,0.5,options.subjectLevelGLM.(glmFlag).regressors(falseAlarmRegressorIDx).name,'FontSize',20);axis off
     
     
     

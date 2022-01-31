@@ -1,13 +1,13 @@
 % this script runs across subjects and tries to find the optimal match of
 % EEG samples and triggers recorded with the behavioural data for each
 % stimulus
-options = continuous_RDK_set_options('LTHiMac');
+options = continuous_RDK_set_options('iMac');
 
-%subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
 %subjectList = [ 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
-subjectList = [62:64,66,68,70];
+%subjectList = [62:64,66,68,70];
 
-csdFlag = 1; % 1 for csd transformed data
+csdFlag = 0; % 1 for csd transformed data
 reference = 'LMRM';
 for subject = 1:length(subjectList)
     
@@ -22,16 +22,17 @@ for subject = 1:length(subjectList)
         
    
         D = spm_eeg_load(paths.(reference).continuousPreproc(sessionCount).sessionList);
-        
-        
+       
+        D.trialonset
+
         % load stimulus triggers
         bhv = load(paths.behaviour(sessionCount).sessionList,'B');
         bhvTriggersAllBlocks = bhv.B.trigger_vals;
-        
+       
         % load sequence of conditions for a session
         stim = load(paths.stimulus(sessionCount).sessionList,'S');
         conditionID = cellfun(@str2double,stim.S.block_ID_cells);
-        
+       
         
         % find start and end of each block in the eeg events
         eeg_events = D.events; %events in EEG data
@@ -63,7 +64,7 @@ for subject = 1:length(subjectList)
                 % select EEG data and corresponding artefacts that matches stimulus
                 EEGDat{session}{conditionID(nBlocks(block))} = D(:,blockStartEEGIdx:blockEndEEGIdx,1);
                 badSamples{session}{conditionID(nBlocks(block))} = D.badsamples(:,blockStartEEGIdx:blockEndEEGIdx,1);
-                
+             
             else
                 % don't save anything because EEG data doesn't match
                 % stimulus

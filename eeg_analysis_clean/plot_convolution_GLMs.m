@@ -3,7 +3,7 @@ addpath(genpath(pwd))
 
 glmFlag = 'jumps_absolute';
 
-options = continuous_RDK_set_options('LTHiMac');
+options = continuous_RDK_set_options('iMac');
 
 % subject list
 subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
