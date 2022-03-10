@@ -80,6 +80,7 @@ else
     
     paths.(reference).subjectLevelGLM.coherence_responses.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_coherence_responses.mat',id));
     paths.(reference).subjectLevelGLM.vertical_jumps_absolute.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_vertical_jumps_absolute.mat',id));
+    paths.(reference).subjectLevelGLM.all_regressors.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_all_regressors.mat',id));
      
     
     %paths.(reference).singleTrial.appendedData.trialStart = fullfile(options.path.EEG.analysis,'test_April_2020',['trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);

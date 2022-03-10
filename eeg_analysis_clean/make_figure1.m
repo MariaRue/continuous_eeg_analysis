@@ -3,7 +3,7 @@ function make_figure1(plotVariables, options)
 
 
 
-glmFlag = 'jumps_absolute';
+glmFlag = 'all_regressors';
 
 
 
@@ -49,7 +49,7 @@ create_ERP_plot(selectedData.Average.Rare.time, selectedData.Average.Rare.avg,di
 % plot significant time points, if there are any 
 if any(SignificantTimePoints.Frequency)
 
-    plot_significant_timepoints(selectedData.Average.Freq.time,SignificantTimePoints.Frequency)
+    plot_significant_timepoints(selectedData.Average.Freq.time,SignificantTimePoints.Frequency, plotVariables.figure1.ERP.ylim(2))
 
 end 
    
@@ -79,7 +79,7 @@ create_ERP_plot(selectedData.Average.Long.time, selectedData.Average.Long.avg,di
 % plot significant time points, if there are any 
 if any(SignificantTimePoints.Length)
 
-    plot_significant_timepoints(selectedData.Average.Short.time,SignificantTimePoints.Length)
+    plot_significant_timepoints(selectedData.Average.Short.time,SignificantTimePoints.Length, plotVariables.figure1.ERP.ylim(2))
 
 end 
    
@@ -102,7 +102,7 @@ create_ERP_plot(diffWave.Avg.diffWaveFreqVSRare.time, diffWave.Avg.diffWaveFreqV
 
 if any(SignificantTimePoints.Frequency)
 
-    plot_significant_timepoints(selectedData.Average.Freq.time,SignificantTimePoints.Frequency)
+    plot_significant_timepoints(selectedData.Average.Freq.time,SignificantTimePoints.Frequency, plotVariables.figure1.diffWave.ylim(2))
 
 end 
 
@@ -126,7 +126,7 @@ create_ERP_plot(diffWave.Avg.diffWaveShortVSLong.time, diffWave.Avg.diffWaveShor
 
 if any(SignificantTimePoints.Length)
 
-    plot_significant_timepoints(selectedData.Average.Short.time,SignificantTimePoints.Length)
+    plot_significant_timepoints(selectedData.Average.Short.time,SignificantTimePoints.Length, plotVariables.figure1.diffWave.ylim(2))
 
 end 
 

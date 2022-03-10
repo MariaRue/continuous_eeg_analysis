@@ -24,7 +24,7 @@ if isfield(options.preproc, 'eyeblinkdetection')
         case 'ampThresholding'
             S.methods.fun = 'ampthresh';
             S.methods.settings.threshold = options.preproc.eyeblinkthreshold; % EOG amplitude in uV
-            S.methods.settings.excwin = 1000;
+            S.methods.settings.excwin = 1;
             S.prefix = 'b';
         case 'ampThreshUnfiltered'       
             S.methods.fun = 'threshchan';

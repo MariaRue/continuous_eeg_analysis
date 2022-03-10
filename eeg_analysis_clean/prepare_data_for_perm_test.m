@@ -3,9 +3,12 @@ function [selectedData, allDataAvg] ...
 
 % data as tested during experiment - this is used for testing for the
 % interaction between frequency and length 
-
+try
 freqShortSj = squeeze(betas{regressorIDx}(:,:,:,1));
-
+catch 
+    keyboard; 
+    
+end 
 freqLongSj = squeeze(betas{regressorIDx}(:,:,:,2));
 
 rareShortSj = squeeze(betas{regressorIDx}(:,:,:,3));
@@ -77,6 +80,8 @@ for sj = 1:nS
     
     selectedDataLong{sj} = select_electrode_specific_data_for_permtest(cfg, dataFtLong{sj});
     
+    selectedDataAll{sj} = select_electrode_specific_data_for_permtest(cfg, dataFtAll{sj});
+    
     
     % data as tested in experiment 
     selectedDataFreqShort{sj} = select_electrode_specific_data_for_permtest(cfg, dataFtFreqShort{sj});
@@ -100,6 +105,8 @@ selectedDataAvgShort = calculate_average_across_subjects(cfg, selectedDataShort)
 
 selectedDataAvgLong = calculate_average_across_subjects(cfg, selectedDataLong);
 
+selectedDataAvgAll = calculate_average_across_subjects(cfg, selectedDataAll);
+
 allDataAvg = calculate_average_across_subjects(cfg, dataFtAll);
 
   % data as tested in experiment 
@@ -114,6 +121,7 @@ allDataAvg = calculate_average_across_subjects(cfg, dataFtAll);
   selectedData.subjectLevel.FreqLong = selectedDataFreqLong; 
   selectedData.subjectLevel.RareShort = selectedDataRareShort; 
   selectedData.subjectLevel.RareLong = selectedDataRareLong;
+  selectedData.subjectLevel.All = selectedDataAll; 
   
   selectedData.subjectLevel.Freq = selectedDataFreq; 
   selectedData.subjectLevel.Rare = selectedDataRare; 
@@ -124,6 +132,7 @@ allDataAvg = calculate_average_across_subjects(cfg, dataFtAll);
   selectedData.Average.FreqLong = selectedDataAvgFreqLong; 
   selectedData.Average.RareShort = selectedDataAvgRareShort; 
   selectedData.Average.RareLong = selectedDataAvgRareLong;
+  selectedData.Average.All = selectedDataAvgAll; 
   
   selectedData.Average.Freq = selectedDataAvgFreq; 
   selectedData.Average.Rare = selectedDataAvgRare; 
