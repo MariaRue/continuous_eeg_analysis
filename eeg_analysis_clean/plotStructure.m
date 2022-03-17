@@ -56,7 +56,7 @@ plotVariables.figure4.position = [500, 500, 700, 500];
 plotVariables.figure4.LineWidth = 2; 
 plotVariables.figure4.Colour = [0 0 0]; 
 plotVariables.figure4.xlim = [-0.1 0.8]; 
-plotVariables.figure4.ERP.ylim = [-0.4 0.4]; 
+plotVariables.figure4.ERP.ylim = [-0.6 0.6]; 
 %%
 plotVariables.figure5.paperSize =  [500 500];
 plotVariables.figure5.position = [200, 1200, 1700, 1000];

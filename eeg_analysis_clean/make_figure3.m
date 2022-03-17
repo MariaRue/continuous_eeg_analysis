@@ -231,7 +231,7 @@ hold off
 
 %% absolute stimulus 
 
-subplot(7,4,17)
+subplot(7,4,21)
 text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzAbsoluteStimRegressorIDx).name,'FontSize',20);axis off
 
 subplot(7,4,18)
