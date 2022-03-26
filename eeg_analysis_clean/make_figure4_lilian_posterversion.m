@@ -1,4 +1,4 @@
-function make_figure4(plotVariables,options)
+function make_figure4_lilian_posterversion(plotVariables,options)
 
 glmFlag = 'jumps_absolute';
 
@@ -44,19 +44,26 @@ load('behaviouralAnalysis/stored_integration_kernels.mat','allTau','subj_list_be
 [~,~,ai] = intersect(subjectList,subj_list_behav');
 allTau_reduced = allTau(ai,:);
 
+allTau_reducedCollapsed(:,1) = (allTau_reduced(:,1) + allTau_reduced(:,2)) ./2; %frequent average
+allTau_reducedCollapsed(:,2) = (allTau_reduced(:,3) + allTau_reduced(:,4)) ./2; %rare average
+
 %and average and demean this for inclusion in Spearman's correlation:
-allTau_reduced_dm = mean(allTau_reduced,2);
-allTau_reduced_dm = allTau_reduced_dm - mean(allTau_reduced_dm);
+allTau_reducedCollapsed_dm = mean(allTau_reducedCollapsed,2);
+allTau_reducedCollapsed_dm = allTau_reducedCollapsed_dm - mean(allTau_reducedCollapsed_dm);
 
 %% Spearmans correlation
 
+B = betas_all_subjects_sessavg{AbsoluteSimRegressorIdx}; %betas of interest
+Bcollapsed(:,:,:,1) = (B(:,:,:,1) + B(:,:,:,2)) ./ 2; %frequent average
+Bcollapsed(:,:,:,2) = (B(:,:,:,3) + B(:,:,:,4)) ./ 2; %rare average
+
 %first, smooth the betas with a gaussian (FMHM = 50ms)
-smoothedBetas = smooth_betas(betas_all_subjects_sessavg{AbsoluteSimRegressorIdx},Fs,50,3);
+smoothedBcollapsed = smooth_betas(Bcollapsed,Fs,50,3);
 
 %now, correlate across subjects with tau
-[corr_across_subjects] = calculate_spearmans_correlation(smoothedBetas,allTau_reduced_dm,nS);
+[corr_across_subjects] = calculate_spearmans_correlation(smoothedBcollapsed,allTau_reducedCollapsed_dm,nS);
 
-for condition = 1:4
+for condition = 1:2
     
     dataCorrelated{condition} = create_fieldTrip_structure(timeBins, new_labels, corr_across_subjects(:,:,condition), elecs);
     
@@ -78,7 +85,7 @@ selectedDataAvg = ft_timelockgrandaverage(cfg, selectedData{:});
 
 chanIdx = find(strcmp(selectedData{1}.elec.label,'CZ'));
 timeWindow = findc(timeBins,[0.4 0.6]); %time window in samples, 400-600ms
-dataForCorrelationPlots = (betas_all_subjects_sessavg{AbsoluteSimRegressorIdx}(:,chanIdx,timeWindow(1):timeWindow(2),:));
+dataForCorrelationPlots = (Bcollapsed(:,chanIdx,timeWindow(1):timeWindow(2),:));
 dataForCorrelationPlots = squeeze(mean(dataForCorrelationPlots,3));
 
 %% plot
@@ -89,25 +96,50 @@ set(gcf, 'PaperSize', [200 100]);
 set(gcf, 'Position',  [500, 500, 700, 500]);
 
 hold on
-for condition = 1:4
-    plot(timeBins, selectedData{condition}.avg,'-', 'LineWidth', plotVariables.figure4.LineWidth, 'Color', plotVariables.figure4.Colour)
-end
-hold off
 
-xlim(plotVariables.figure4.xlim)
-ylim(plotVariables.figure4.ERP.ylim)
+l(1) = plot(timeBins, selectedData{1}.avg,'-', 'LineWidth', plotVariables.figure4.LineWidth, 'Color', [1 0 0]);
+l(2) = plot(timeBins, selectedData{2}.avg,'-', 'LineWidth', plotVariables.figure4.LineWidth, 'Color', [0 0 1]);
+
+
+ll = line(plotVariables.figure4.xlim,[0 0]);
+ll.Color = [0.5 0.5 0.5];
+
+plotVariables.figure4.ylim = [-0.7 0.4];
+h = fill([0.4 0.4 0.6 0.6] ,[-0.7 0.4 0.4 -0.7],[0.75 0.75 0.75]);
+h.FaceAlpha=0.1;
+h.EdgeColor=[0.75 0.75 0.75];
+xlim(plotVariables.figure4.xlim);
+ylim(plotVariables.figure4.ylim);
 xlabel('Time (s)');
 ylabel('Spearman''s rho');
+leg = legend(l,{'Trial periods frequent' 'Trial periods rare'},'Box','off','Location','southwest');
 
-for condition = 1:4
-    subplot(2,4,4+condition);
-    scatter(allTau_reduced(:,condition),dataForCorrelationPlots(:,condition));
-    xlabel('Tau'); 
-    if condition==1; ylabel('Average EEG beta (400-600ms)'); end
-    lsline;
-end
+title(sprintf('Correlation between individual evidence integration decay parameter (tau) \n and EEG correlate of absoluted sensory evidence at sensor Cz'));
+tidyfig;
+
+subplot(2,2,3);
+scatteroptions = {'MarkerSize' 14 'Color' 'r'};
+lineoptions = {'LineWidth' 2 'Color' 'k'};
+corroptions = {'type' 'spearman'};
+scatter_plus_fit(log(allTau_reducedCollapsed(:,1)),dataForCorrelationPlots(:,1),scatteroptions,lineoptions,[],corroptions);
+box off
+xlabel('log(Tau), frequent trials');
+ylabel(sprintf('Average EEG beta\n(400-600ms)'));
+lsline;title('Trial periods frequent');
+
+tidyfig;
+
+subplot(2,2,4);
+scatteroptions = {'MarkerSize' 14 'Color' 'b'};
+scatter_plus_fit(log(allTau_reducedCollapsed(:,2)),dataForCorrelationPlots(:,2),scatteroptions,lineoptions,[],corroptions);
+xlabel('log(Tau), rare trials');
+ylabel('');
+lsline;title('Trial periods rare');
+
+tidyfig;
+
+box off
 
 
-%%
 
-end
+

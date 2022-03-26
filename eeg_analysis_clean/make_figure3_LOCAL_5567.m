@@ -159,58 +159,5 @@ tidyfig;
 
 hold off
 
-%% absolute stimulus 
-
-subplot(7,4,21)
-text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzAbsoluteStimRegressorIDx).name,'FontSize',20);axis off
-
-subplot(7,4,18)
-create_topo_plot(HorzAbsoluteStimAllDataAvg,0.1, 0.2, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,19)
-create_topo_plot(VertAbsoluteStimAllDataAvg,0.1, 0.2, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,22)
-create_topo_plot(HorzAbsoluteStimAllDataAvg,0.35, 0.45, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,23)
-create_topo_plot(VertAbsoluteStimAllDataAvg,0.35, 0.45, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,24)
-hold on
-
-create_ERP_plot(HorzAbsoluteStimSelectedData.Average.All.time, HorzAbsoluteStimSelectedData.Average.All.avg, diffWave.Avg.diffWaveAbsoluteStim.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
-create_ERP_plot(VertAbsoluteStimSelectedData.Average.All.time, VertAbsoluteStimSelectedData.Average.All.avg, diffWave.Avg.diffWaveAbsoluteStim.se, plotVariables.figure3.ERP.colour(2,:),plotVariables.figure3.LineWidth)
-
-if any(SignificantTimePoints.AbsoluteStim)
-
-    plot_significant_timepoints(HorzAbsoluteStimSelectedData.Average.All.time, SignificantTimePoints.AbsoluteStim, plotVariables.figure3.AbsoluteStimRegressor.ylim(2))
-
-end 
-
-
-
-xlim(plotVariables.figure3.xlim)
-ylim(plotVariables.figure3.AbsoluteStimRegressor.ylim)
-
-xlabel(plotVariables.figure3.xlabel)
-ylabel(plotVariables.figure3.ylabel)
-
-tidyfig;
-
-hold off
-
-subplot(7,4,26)
-create_topo_plot(HorzAbsoluteStimAllDataAvg,0.45, 0.55, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
-subplot(7,4,27)
-create_topo_plot(VertAbsoluteStimAllDataAvg,0.45, 0.55, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
-tidyfig; 
-
 
 end

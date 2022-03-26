@@ -1,7 +1,6 @@
-
 glmFlag = 'all_regressors';
 vertical = 0; 
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 % load all_responses,stim_streams, mean_stim_streams
 load_name = fullfile(options.path.preproc.behaviour,'behav_data_all_subjs_all3.mat'); % load behavioural data
 
@@ -9,7 +8,6 @@ if vertical
  load(load_name,'all_responses','mean_stim_streams','stim_streams','vertical_stim_streams');  
 else 
   load(load_name,'all_responses','mean_stim_streams','stim_streams');  
-keyboard; 
 end 
 
 % subject list

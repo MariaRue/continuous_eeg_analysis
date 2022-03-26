@@ -7,7 +7,7 @@ for subject = 1:nS
     disp('subject: ')
     disp(subID)
     [details,paths] =  conrdk_subjects( subID,options,reference,csdFlag);
-    
+
     % load betas for one subject
     betaSubject = load( paths.(reference).subjectLevelGLM.(glmFlag).saveName);
     

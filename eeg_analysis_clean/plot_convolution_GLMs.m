@@ -136,20 +136,25 @@ end
 
 %% run group level spearman's correlation with sorted taus
 
-[~,ai] = sort(allTau_reduced_dm);sl_sorted = [1:24]'; sl_sorted(ai) = sl_sorted; %to use ranks
-sl_sorted_dm = sl_sorted - mean(sl_sorted);
+[~,ai_Tau] = sort(allTau_reduced_dm,'descend');
+[~,sl_ranked] = sort(ai_Tau); %so now sl_sorted is list of ranks of Tau
+
+%sl_sorted_dm = sl_sorted - mean(sl_sorted);
 
 for r = 1:length(options.subjectLevelGLM.(glmFlag).regressors) % loop through regressors
     data = betas_all_subjects_sessavg{r};
     
     %first, rank data across subjects
-    data_ranked = data(:,:);
-    [~,ai] = sort(data_ranked,'descend');
-    tmp = 1:nS;
-    for i = 1:size(data_ranked,2); 
-        data_ranked(ai(:,i),i) = tmp; 
-    end
-    rrr = corr(data_ranked,sl_sorted_dm);
+    data_squashed = data(:,:);
+    [~,ai_Data] = sort(data_squashed,'descend');
+    [~,data_ranked] = sort(ai_Data); 
+    
+%     tmp = 1:nS;
+%     for i = 1:size(data_ranked,2); 
+%         data_ranked(ai(:,i),i) = tmp; 
+%     end
+
+    rrr = corr(data_ranked,sl_ranked);
     
     corr_across_subjects{r} = reshape(rrr,[size(data,2),size(data,3), size(data,4)]);
 end
@@ -214,11 +219,11 @@ ft_struct.label = change_electrode_labels(betaSubject.chanlabels(1:61));
 figure
 
 fig_id = 1; % subplot index
-start_times = [250  ]; %start times of plotting windows, in ms
-end_times   = [350 ]; %end times of plotting windows, in ms
+start_times = [300 400 500 ]; %start times of plotting windows, in ms
+end_times   = [400 500 600 ]; %end times of plotting windows, in ms
 
-for r = 1% 1:length(time_idx) % loop through regressors
-    ft_struct.avg = mean(avg_across_subjects{r},3); % mean across conditions
+for r = 2% 1:length(time_idx) % loop through regressors
+    ft_struct.avg = mean(corr_across_subjects{r},3); % mean across conditions
     ft_struct.time = options.subjectLevelGLM.(glmFlag).regressors(r).timeBins; % time window
     
     %cax_lim = max(abs(prctile(squash(ft_struct.avg(1:60,:)),[1 99])));

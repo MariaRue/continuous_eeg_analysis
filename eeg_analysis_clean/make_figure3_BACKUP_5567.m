@@ -159,6 +159,8 @@ tidyfig;
 
 hold off
 
+<<<<<<< HEAD
+=======
 %% absolute stimulus 
 
 subplot(7,4,21)
@@ -212,5 +214,6 @@ subplot(7,4,27)
 create_topo_plot(VertAbsoluteStimAllDataAvg,0.45, 0.55, plotVariables.figure3.topoPlot.AbsoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
 tidyfig; 
 
+>>>>>>> 33c52a2a7c045c1955ab84afad313efb2609e8bc
 
 end
