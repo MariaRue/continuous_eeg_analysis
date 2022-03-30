@@ -396,7 +396,7 @@ nS = 28;
 anova_samples = 28; 
 plt = 1; 
 color = [1,0,0; 0.5 1 1; 0.5 1 0.5];
-%[sig_tps,p,tbl] = shuffled_permutation_test_Fscore(mean_coherences, lags, thres, repetitions, anova_samples, plt,nS);
+[sig_tps,p,tbl] = shuffled_permutation_test_Fscore(mean_coherences, lags, thres, repetitions, anova_samples, plt,nS);
 for i = 1:4
     %subplot(2,2,i)
     figure (11)

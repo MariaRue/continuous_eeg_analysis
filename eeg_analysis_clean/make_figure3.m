@@ -1,4 +1,4 @@
-function make_figure2(plotVariables,options)
+function make_figure3(plotVariables,options)
 
 glmFlag = 'vertical_jumps_absolute';
 

@@ -1,4 +1,5 @@
 plotVariables.conditions = {'frequent', 'rare', 'short', 'long'};
+plotVariables.originalConditions ={ 'short & frequent', 'long & frequent', 'short & rare', 'long & rare'}; 
 plotVariables.diffWavesLabels = {'frequent - rare', 'short - long'};
 %% 
 plotVariables.figure1.paperSize =  [200 100];
@@ -77,3 +78,19 @@ plotVariables.figure5.topoPlot.jumpRegressor.zlim = [-0.25 0.25];
 plotVariables.figure5.topoPlot.cohLevelRegressor.zlim = [-0.3 0.3];
 plotVariables.figure5.topoPlot.PERegressor.zlim = [-0.7 0.7];
 plotVariables.figure5.topoPlot.absoluteStimRegressor.zlim = [-0.1 0.1];
+
+
+%% plotVariables.figure6 
+
+plotVariables.figure6.colourScheme = cbrewer('div','RdBu',10); 
+plotVariables.figure6.colours = plotVariables.figure6.colourScheme([3:4,8,7],:);
+plotVariables.figure6.detectRate.LineWidth = 3; 
+plotVariables.figure6.falseAlarmRate.LineWidth = 3;
+plotVariables.figure6.falseAlarmRate.MarkerSize = 3;
+plotVariables.figure6.falseAlarmRate.Color = 'k';
+plotVariables.figure6.reactionTimes.LineWidth = 3;
+plotVariables.figure6.reactionTimes.MarkerSize = 7;
+plotVariables.figure6.reactionTimes.Color = 'k';
+plotVariables.figure6.IntegrationKernels.Color = 'k';
+plotVariables.figure6.IntegrationKernels.LineWidth = 3;
+plotVariables.figure6.IntegrationKernels.MarkerSize = 4;
