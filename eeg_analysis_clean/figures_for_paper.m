@@ -1,6 +1,6 @@
 % load plot variables
 addpath(genpath(pwd));
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 plotStructure; %returns plotVariables to workspace
 
 %% figure 1: plots prediction error effect sorted by long vs. short, rare vs. frequent
@@ -10,7 +10,7 @@ make_figure1(plotVariables,options);
 make_figure2(plotVariables,options);
 
 %% figure 3: split by horizontal and vertical motion (all different regressors; only n=6 subjects)
-make_figure3(plotVariables,options);
+make_figure3_LOCAL_5567(plotVariables,options);
 
 %% figure 4: cross-subject correlation with Tau?
 make_figure4(plotVariables,options);

@@ -6,7 +6,7 @@ ExpParameters = 0;
 %% loop through subjects and find button presses
 mean_coherences = [];
 for subject = 1 : nS
-  subjectID = SubjectList(subject);
+    subjectID = SubjectList(subject);
     
     for condition = 1 :4
         combined = [];
@@ -111,15 +111,15 @@ end
 
 
 
-      GroupIntegrationKernels.sem = squeeze(std(permute(SubjectIntegrationKernels.mean,[3,1,2]))/sqrt(size(SubjectIntegrationKernels.mean,3)));
-      GroupIntegrationKernels.mean = nanmean(SubjectIntegrationKernels.mean,3);
-        
-   %% 
-   
-repetitions = 100; 
-thres = round(.05 * repetitions); 
-anova_samples = nS; 
-plt = 1; 
+GroupIntegrationKernels.sem = squeeze(std(permute(SubjectIntegrationKernels.mean,[3,1,2]))/sqrt(size(SubjectIntegrationKernels.mean,3)));
+GroupIntegrationKernels.mean = nanmean(SubjectIntegrationKernels.mean,3);
+
+%%
+
+repetitions = 100;
+thres = round(.05 * repetitions);
+anova_samples = nS;
+plt = 1;
 
 [SignificantTimePoints,p,tbl] = shuffled_permutation_test_Fscore(SubjectIntegrationKernels.mean, lags, thres, repetitions, anova_samples, plt,nS);
 

@@ -431,7 +431,7 @@ std_dist2 = mean_tau - 2*std_tau;
 [sj_1_tau,l1] = find(allTau >= std_dist);
 [sj_2,l] = find(allTau <= std_dist2);
 
-%keep these subjects in for now?
+%keep these subjects in for now? LH edit
 %tau_short(unique(sj_1_tau)) = [];
 %tau_long(unique(sj_1_tau)) = []; 
 %tau_freq(unique(sj_1_tau)) = []; 
@@ -444,7 +444,7 @@ amp_long(r) = [];
 amp_freq = squeeze(pnew_sj(3,1,:));
 amp_freq(r) = [];
 amp_rare = squeeze(pnew_sj(4,1,:));
-amp_rare(r) = [];
+amp_rare(r) = []; 
 
 
 
@@ -502,6 +502,10 @@ title([condition{con},' ','R= ',num2str(round(R_amp_freq(1,2),2)),' ','P= ', num
 xlabel('frequent')
 ylabel('rare')
 tidyfig;
+
+% to save for subsequent neural analysis:
+% save('stored_integration_kernels.mat','allTau','subj_list_behav')
+
 
 %% helper function for exp fit
 

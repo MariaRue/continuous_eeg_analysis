@@ -87,7 +87,7 @@ hold off
  legend(b(1:4),plotVariables.originalConditions)
 tidyfig
 %% integration kernels 
-keyboard;
+
 subplot(2,2,4)
 for condition = 1:4
 
