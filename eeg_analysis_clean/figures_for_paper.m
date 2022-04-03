@@ -1,6 +1,6 @@
 % load plot variables
 addpath(genpath(pwd));
-options = continuous_RDK_set_options('LTHiMac');
+options = continuous_RDK_set_options('iMac');
 plotStructure; %returns plotVariables to workspace
 
 %% figure 1: plots prediction error effect sorted by long vs. short, rare vs. frequent
@@ -20,3 +20,9 @@ make_figure5(plotVariables, options);
 
 %% figure 6: behavioural figure detection rate, FAs, RTs, Integration kernels
 make_figure6(plotVariables, options)
+
+%% figure 7: signal period behav figure
+make_figure7(plotVariables, options)
+
+%% figure 8: baseline period behav figure
+make_figure8(plotVariables, options)

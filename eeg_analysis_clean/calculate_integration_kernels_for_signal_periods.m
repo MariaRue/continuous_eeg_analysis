@@ -1,10 +1,8 @@
-function [GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints, ExpParameters] = calculate_integration_kernels(all_responses,SubjectList,nS, mean_stim_streams, stim_streams, trigger_streams,lags)
-
-
+function [GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints] = calculate_integration_kernels_for_signal_periods(all_responses,SubjectList,nS, mean_stim_streams, stim_streams, trigger_streams,lags)
 
 ExpParameters = 0;
 %% loop through subjects and find button presses
-mean_coherences = [];
+
 for subject = 1 : nS
     subjectID = SubjectList(subject);
     
@@ -38,32 +36,58 @@ for subject = 1 : nS
             responses = all_responses((all_responses(:,9)== condition & all_responses(:,10) == se & all_responses(:,11) == subjectID),:);
             
             
+            % this is for frames taken from response matrix
+            triggers_right = responses((responses(:,7) == 1 & responses(:,3) == 1),6);
+            triggers_left = responses((responses(:,7) == 1 & responses(:,3) == 0),6);
             
-            % find all triggers that lead to a button press
+            % right trials
+            rts_rigth = zeros(length(triggers_right(:,1)),1);
+            for i = 1:length(triggers_right(:,1))
+                
+                t_org = triggers_right(i,1);
+                t = triggers_right(i,1);
+                
+                while ~(mean_streams(t) ~= 0 && mean_streams(t-1) == 0)
+                    t = t-1;
+                    
+                end
+                
+                rts_rigth(i) = t_org - t;
+                
+                if rts_rigth(i) > 300
+                    
+                    triggers_right(i,:) = nan;
+                    
+                end
+                
+            end
             
             
-            % find triggers right and left button press (202 and 206)
+            % left trials
+            rts_left = zeros(length(triggers_left(:,1)),1);
+            for i = 1:length(triggers_left(:,1))
+                
+                t_org = triggers_left(i,1);
+                t = triggers_left(i,1);
+                
+                while ~(mean_streams(t) ~= 0 && mean_streams(t-1) == 0)
+                    t = t-1;
+                    
+                end
+                
+                rts_left(i) = t_org - t;
+                
+                if rts_left(i) > 300
+                    
+                    triggers_left(i,:) = nan;
+                    
+                end
+                
+            end
             
-            triggers_right = [];
-            triggers_left = [];
-            
-            
-            % this is with eeg triggers - don't use it
-            %                     triggers_right = find(trigger_streams_sj == 202);
-            %                     triggers_left = find(trigger_streams_sj == 206);
-            
-            
-            % this is with triggers from the response matrix
-            %
-            triggers_right = responses((responses(:,7) == 2 & responses(:,3) == 1),6);
-            triggers_left = responses((responses(:,7) == 2 & responses(:,3) == 0),6);
-            
-            
-            
-            
-            
-            
-            
+            % remove nan trials - trials with rt > 300
+            triggers_right(isnan(triggers_right(:,1)),:) = [];
+            triggers_left(isnan(triggers_left(:,1)),:) = [];
             
             % only choose triggers that are bigger than the lags we go
             % back
@@ -71,7 +95,6 @@ for subject = 1 : nS
             
             triggers_right(triggers_right(:,1)<=lags,:) = [];
             triggers_left(triggers_left(:,1)<=lags,:) = [];
-            
             
             
             % loop through triggers for right and left button presses and
@@ -91,9 +114,6 @@ for subject = 1 : nS
             combined = [combined,matrix_right, matrix_left];
             
             
-            
-            
-            
         end
         
         
@@ -102,19 +122,17 @@ for subject = 1 : nS
         num_false_alarms(subject,condition) = size(combined,2);
         
         
-        
-        
     end
     
+
     
 end
-
-
 
 GroupIntegrationKernels.sem = squeeze(std(permute(SubjectIntegrationKernels.mean,[3,1,2]))/sqrt(size(SubjectIntegrationKernels.mean,3)));
 GroupIntegrationKernels.mean = nanmean(SubjectIntegrationKernels.mean,3);
 
-%%
+
+
 
 repetitions = 100;
 thres = round(.05 * repetitions);
@@ -122,6 +140,8 @@ anova_samples = nS;
 plt = 1;
 
 [SignificantTimePoints,p,tbl] = shuffled_permutation_test_Fscore(SubjectIntegrationKernels.mean, lags, thres, repetitions, anova_samples, plt,nS);
+
+
 
 
 end
