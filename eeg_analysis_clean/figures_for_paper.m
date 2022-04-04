@@ -24,5 +24,8 @@ make_figure6(plotVariables, options)
 %% figure 7: signal period behav figure
 make_figure7(plotVariables, options)
 
-%% figure 8: baseline period behav figure
+%% figure 8: baseline period behav figure collapsed false alarm rate only 
 make_figure8(plotVariables, options)
+
+%% figure 9: baseline period behav figure fa rate and integration kernels not collapsed 
+make_figure9(plotVariables, options)

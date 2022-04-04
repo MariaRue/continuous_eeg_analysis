@@ -114,7 +114,7 @@ end
 GroupIntegrationKernels.sem = squeeze(std(permute(SubjectIntegrationKernels.mean,[3,1,2]))/sqrt(size(SubjectIntegrationKernels.mean,3)));
 GroupIntegrationKernels.mean = nanmean(SubjectIntegrationKernels.mean,3);
 
-%%
+%% multiple comparison 
 
 repetitions = 100;
 thres = round(.05 * repetitions);
@@ -123,5 +123,33 @@ plt = 1;
 
 [SignificantTimePoints,p,tbl] = shuffled_permutation_test_Fscore(SubjectIntegrationKernels.mean, lags, thres, repetitions, anova_samples, plt,nS);
 
+
+%% fitting of exponentials
+
+options = optimset('MaxFunEvals',1000000,'MaxIter',100000);
+for condition = 1 : 4
+    for subject = 1 : size(SubjectIntegrationKernels.mean,3)
+        data = SubjectIntegrationKernels.mean(:,condition,subject); % data to fit exp model to
+        
+        % find the peak of the data as starting point
+        [val,idx_max] = max(data);
+        data_new{condition,subject} = data(1:idx_max);
+        % time steps
+        dt = 0.01;
+        num_steps = length(data_new{condition,subject});
+        
+        t_sj{condition,subject} = dt : dt : num_steps * dt;
+        
+        
+        % initial param guesses for exp model
+        pstart(1) = 1; % Amplitude
+        pstart(2) = 1; % 1/tau
+        % pstart(3) = 1; % offset
+        
+        fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works
+        [ExpParameters(condition,:,subject),~,exitflag(condition,subject)] = fminsearch(fun,pstart,options);
+        
+    end
+end
 
 end
