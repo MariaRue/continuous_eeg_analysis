@@ -38,15 +38,15 @@ for subject = 1:nS
     
 end
 
-
+keyboard;
 %%%% This is for excluding outliers 
-mean_FA_rate_total = mean([subjectLevelLong, subjectLevelShort]);
-sd_FA_rate_total = 2 * std([subjectLevelLong, subjectLevelShort]);
+mean_FA_rate_total = mean([subjectLevelLong(:);subjectLevelShort]);
+sd_FA_rate_total = 2 * std([subjectLevelLong(:),subjectLevelShort]);
 % 
-[~,sj_idLong] = find(subjectLevelLong>= mean_FA_rate_total + sd_FA_rate_total);
+[~,sj_idLong] = find(subjectLevelLong>= mean_FA_rate_total + sd_FA_rate_total | subjectLevelLong<= mean_FA_rate_total - sd_FA_rate_total );
 subjectLevelLong(:,sj_idLong) = [];
 
-[~,sj_idShort] = find(subjectLevelShort>= mean_FA_rate_total + sd_FA_rate_total);
+[~,sj_idShort] = find(subjectLevelShort>= mean_FA_rate_total + sd_FA_rate_total | subjectLevelShort<= mean_FA_rate_total - sd_FA_rate_total );
 subjectLevelShort(:,sj_idShort) = [];
     
     groupLevelLong = mean(subjectLevelLong);

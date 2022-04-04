@@ -18,11 +18,11 @@ falseAlarmRate = calculate_false_alarm_rate_collapsed(all_responses,SubjectListB
 
 
 % integration kernels 
-% not yet implemented 
 
 
 
 
+keyboard;
 %% figure
 figure (8)
 subplot(2,1,1) 
