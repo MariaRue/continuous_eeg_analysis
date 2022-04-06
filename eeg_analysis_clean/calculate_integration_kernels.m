@@ -2,7 +2,7 @@ function [GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoi
 
 
 
-ExpParameters = 0;
+ExpParameters = [];
 %% loop through subjects and find button presses
 mean_coherences = [];
 for subject = 1 : nS
@@ -121,9 +121,9 @@ thres = round(.05 * repetitions);
 anova_samples = nS;
 plt = 1;
 
-[SignificantTimePoints,p,tbl] = shuffled_permutation_test_Fscore(SubjectIntegrationKernels.mean, lags, thres, repetitions, anova_samples, plt,nS);
+%[SignificantTimePoints,p,tbl] = shuffled_permutation_test_Fscore(SubjectIntegrationKernels.mean, lags, thres, repetitions, anova_samples, plt,nS);
 
-
+SignificantTimePoints = [];
 %% fitting of exponentials
 
 options = optimset('MaxFunEvals',1000000,'MaxIter',100000);
@@ -146,10 +146,11 @@ for condition = 1 : 4
         pstart(2) = 1; % 1/tau
         % pstart(3) = 1; % offset
         
-        fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works
-        [ExpParameters(condition,:,subject),~,exitflag(condition,subject)] = fminsearch(fun,pstart,options);
+      fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works
+      [ExpParameters.parameters(condition,:,subject),~,exitflag(condition,subject)] = fminsearch(fun,pstart,options);
         
     end
 end
 
+ExpParameters.time = t_sj{condition,subject};
 end
