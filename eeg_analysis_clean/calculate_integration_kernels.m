@@ -10,7 +10,7 @@ for subject = 1 : nS
     
     for condition = 1 :4
         combined = [];
-        combined_coh = [];
+       
         
         se_total = 6;
         if subjectID == 26
@@ -133,6 +133,7 @@ for condition = 1 : 4
         
         % find the peak of the data as starting point
         [val,idx_max] = max(data);
+      
         data_new{condition,subject} = data(1:idx_max);
         % time steps
         dt = 0.01;
@@ -151,6 +152,6 @@ for condition = 1 : 4
         
     end
 end
-
-ExpParameters.time = t_sj{condition,subject};
+SubjectIntegrationKernels.DataForModelFit = data_new;
+ExpParameters.time = t_sj;
 end

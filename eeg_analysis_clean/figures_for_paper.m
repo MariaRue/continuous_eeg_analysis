@@ -30,5 +30,9 @@ make_figure8(plotVariables, options)
 %% figure 9: baseline period behav figure fa rate and integration kernels not collapsed 
 make_figure9(plotVariables, options)
 
-%% figure 10: single subject integration kernels and correlation of exponential fits 
+%% figure 10: single subject integration kernels 
 make_figure10(plotVariables, options)
+
+%% figure 11: single subject Integration kernels correlation of model fit parameters 
+make_figure10b(plotVariables, options)
+
