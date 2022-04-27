@@ -33,6 +33,6 @@ make_figure9(plotVariables, options)
 %% figure 10: single subject integration kernels 
 make_figure10(plotVariables, options)
 
-%% figure 11: single subject Integration kernels correlation of model fit parameters 
+%% figure 10b: single subject Integration kernels correlation of model fit parameters 
 make_figure10b(plotVariables, options)
 

@@ -22,11 +22,11 @@ nS = length(SubjectListBehaviourEEG);
 keyboard;
 
 figure
-plotVariables
+
 subplot(2,2,1)
 plot(ExpParameters.sorted.short.tau,ExpParameters.sorted.long.tau,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_tau_len(1,2),2)),' ','P= ', num2str(P_tau_len(1,2),2)])
-line([0 4],[0 4])
+
 xlabel('short')
 ylabel('long')
 tidyfig;
@@ -34,7 +34,6 @@ tidyfig;
 subplot(2,2,2)
 plot(ExpParameters.sorted.short.amplitude,ExpParameters.sorted.long.amplitude,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_amp_len(1,2),2)),' ','P= ', num2str(P_amp_len(1,2),2)])
-line([0 0.08],[0 0.08])
 xlabel('short')
 ylabel('long')
 tidyfig;
@@ -42,7 +41,6 @@ tidyfig;
 subplot(2,2,3)
 plot(ExpParameters.sorted.frequent.tau,ExpParameters.sorted.rare.tau,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_tau_freq(1,2),2)),' ','P= ', num2str(P_tau_freq(1,2),2)])
-line([0 4],[0 4])
 xlabel('frequent')
 ylabel('rare')
 tidyfig;
@@ -50,7 +48,6 @@ tidyfig;
 subplot(2,2,4)
 plot(ExpParameters.sorted.frequent.amplitude,ExpParameters.sorted.rare.amplitude,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_amp_freq(1,2),2)),' ','P= ', num2str(P_amp_freq(1,2),2)])
-line([0 0.08],[0 0.08])
 xlabel('frequent')
 ylabel('rare')
 tidyfig;

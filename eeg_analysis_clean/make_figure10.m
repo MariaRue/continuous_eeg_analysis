@@ -27,7 +27,7 @@ nS = length(SubjectListBehaviourEEG);
 plotVariables.conditions;
 figure(10);
 subplotCounter = 1;
-for subject = [1 10 24]
+for subject = [1 14 24]
     for condition = 1:4
         
         subplot(3,4,subplotCounter)

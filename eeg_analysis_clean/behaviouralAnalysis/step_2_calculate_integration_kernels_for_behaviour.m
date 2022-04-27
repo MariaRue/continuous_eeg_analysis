@@ -20,9 +20,9 @@ load(load_name)
 lags = 500; % frames back in time that are leading up to FA
 
 
-which_responses = '3sec_rts';  % calculating integration kernel for either FA button presses or button presses during trials options: 'false alarms' or 'trials', '3sec_rts',
+which_responses = 'false alarms';  % calculating integration kernel for either FA button presses or button presses during trials options: 'false alarms' or 'trials', '3sec_rts',
 
-with_coherence = 'with coherence levels'; % if we want to know the coherence levels for the trials version
+with_coherence = 'without coherence level'; % if we want to know the coherence levels for the trials version
 nS = max(all_responses(:,11)); % number of subjects
 
 coherence = [0.3 0.4 0.5];

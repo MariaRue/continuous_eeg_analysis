@@ -214,23 +214,25 @@ ExpParameters.sorted.rare.amplitude = squeeze(ExpParameters.parameters(4,1,:));
 % tau_freq(unique(sj_1_amp)) = []; 
 % tau_rare(unique(sj_1_amp)) = []; 
 
-keyboard;
+
 confidenceInterval = 0.95; 
 [Correlation.length.coef.tau, Correlation.length.pvalue.tau] = corr(ExpParameters.sorted.short.tau, ExpParameters.sorted.long.tau, 'type', 'Spearman'); 
 [Correlation.length.upperBound.tau, Correlation.length.lowerBound.tau] = calculate_confidence_interval_for_rank_correlation(Correlation.length.coef.tau, nS, confidenceInterval);
 
 [Correlation.length.coef.amplitude, Correlation.length.pvalue.amplitude] = corr(ExpParameters.sorted.short.amplitude, ExpParameters.sorted.long.amplitude, 'type', 'Spearman');
-[Correlation.length.upperBound.amplitude, Correlation.length.lowerBound.amplitude] = calculate_confidence_interval_for_rank_correlation(Correlation.length.coef.amplitude, nS, confidenceInterval);
+[Correlation.length.upperBound.amplitude, Correlation.length.lowerBound.amplitude = calculate_confidence_interval_for_rank_correlation(Correlation.length.coef.amplitude, nS, confidenceInterval);
+
 
 
 
 [Correlation.frequency.coef.tau, Correlation.frequency.pvalue.tau] = corr(ExpParameters.sorted.frequent.tau, ExpParameters.sorted.rare.tau, 'type', 'Spearman'); 
-[Correlation.frequency.upperBound.tau, Correlation.frequency.lowerBound.tau] = calculate_confidence_interval_for_rank_correlation(Correlation.frequency.coef.tau, nS, confidenceInterval);
+[Correlation.length.upperBound.amplitude, Correlation.length.lowerBound.amplitude = calculate_confidence_interval_for_rank_correlation(Correlation.length.coef.amplitude, nS, confidenceInterval);
+
+
 
 [Correlation.frequency.coef.amplitude, Correlation.frequency.pvalue.amplitude] = corr(ExpParameters.sorted.frequent.amplitude, ExpParameters.sorted.rare.amplitude, 'type', 'Spearman');
-[Correlation.frequency.upperBound.amplitude, Correlation.frequency.lowerBound.amplitude] = calculate_confidence_interval_for_rank_correlation(Correlation.frequency.coef.amplitude, nS, confidenceInterval);
 
-
+keyboard;
 % 
 %RHO = corr(a.',b.','Type','Spearman');
 % n = numel(a);

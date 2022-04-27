@@ -24,7 +24,7 @@ ReactionTimes = calculate_reaction_times_for_lineGraph(all_responses,SubjectList
 
 % integration kernels signal periods 
 
-[GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints, ExParameters] = calculate_integration_kernels_for_signal_periods(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
+[GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints, ] = calculate_integration_kernels_for_signal_periods(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
 
 
 %% plotting 
