@@ -56,6 +56,20 @@ xlabel('frequent')
 ylabel('rare')
 xlim([0 1]);ylim([0 1]);
 tidyfig;
-keyboard;
+
+%% STATS TESTING
+% frequent vs. rare tau
+[h,p,ci,stats] = ttest(ExpParameters.sorted.frequent.tau-ExpParameters.sorted.rare.tau);
+
+% frequent vs. rare A
+[h,p,ci,stats] = ttest(ExpParameters.sorted.frequent.amplitude-ExpParameters.sorted.rare.amplitude);
+
+% long vs. short tau
+[h,p,ci,stats] = ttest(ExpParameters.sorted.long.tau-ExpParameters.sorted.short.tau);
+
+% long vs. short A
+[h,p,ci,stats] = ttest(ExpParameters.sorted.long.amplitude-ExpParameters.sorted.short.amplitude);
+
+
 
 end

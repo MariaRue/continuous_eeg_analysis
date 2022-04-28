@@ -16,8 +16,6 @@ nS = length(SubjectListBehaviourEEG);
 % single subject kernels with exponential fits
 [GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints, ExParameters] = calculate_integration_kernels(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
 
-
-
 [Model] = calculate_integration_kernel_based_on_model(ExParameters, nS);
 
 
@@ -34,8 +32,7 @@ for subject = [1 14 24]
         
         if  subplotCounter == 1
             
-            ylabel('mean coherence subject 1')
-            xlabel('time to FA [s]')
+            ylabel('Mean coherence subject 1')
             title(plotVariables.originalConditions{1})
         elseif subplotCounter == 2
             title(plotVariables.originalConditions{2})
@@ -47,13 +44,15 @@ for subject = [1 14 24]
             title(plotVariables.originalConditions{4})
             
         elseif subplotCounter == 5
-            ylabel('mean coherence subject 2')
+            ylabel('Mean coherence subject 2')
             
         elseif subplotCounter == 9
-            ylabel('mean coherence subject 3')
+            ylabel('Mean coherence subject 3')
             
         end
-        
+        if subplotCounter>=9
+            xlabel('time to False Alarm (s)')
+        end
         
         
         hold on
@@ -66,6 +65,7 @@ for subject = [1 14 24]
         xticklabels([ 5 4 3 2 1 0])
         % set(gca, 'XDir','reverse')
         tidyfig
+        xlim([0 500]);
         
         hold off
         subplotCounter = subplotCounter+1;
