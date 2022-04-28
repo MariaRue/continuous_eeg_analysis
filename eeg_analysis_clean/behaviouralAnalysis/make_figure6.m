@@ -113,16 +113,17 @@ end
 plot(1:lags+1,zeros(lags+1,1),'k--','LineWidth',plotVariables.figure6.IntegrationKernels.LineWidth)
 hold on 
 
-for id = 1 
+for id = 1
     
-plot(SignificantTimePoints{id},ones(length(SignificantTimePoints{id}),1).* 0.6,'.','MarkerSize',plotVariables.figure6.IntegrationKernels.MarkerSize,'Color',plotVariables.figure6.IntegrationKernels.Color)
-
-   
+    if ~isempty(SignificantTimePoints)
+        plot(SignificantTimePoints{id},ones(length(SignificantTimePoints{id}),1).* 0.6,'.','MarkerSize',plotVariables.figure6.IntegrationKernels.MarkerSize,'Color',plotVariables.figure6.IntegrationKernels.Color)
+    end
+    
 end
 hold off
 ylim([-0.1 0.65])
 
 legend(b(1:4),plotVariables.originalConditions)
 
-tidyfig; 
-end 
+tidyfig;
+end

@@ -139,12 +139,12 @@ for condition = 1 : 4
         dt = 0.01;
         num_steps = length(data_new{condition,subject});
         
-        t_sj{condition,subject} = -(num_steps-1)*dt:dt:0; %LH edit 280422 to make amplitude interpretable 
+        t_sj{condition,subject} = dt : dt : num_steps * dt;
         
         
         % initial param guesses for exp model
         pstart(1) = 1; % Amplitude
-        pstart(2) = 1; % tau
+        pstart(2) = 1; % 1/tau
         % pstart(3) = 1; % offset
         
       fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works

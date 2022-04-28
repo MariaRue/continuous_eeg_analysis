@@ -19,24 +19,24 @@ nS = length(SubjectListBehaviourEEG);
 [ExpParameters,Correlation] = calculate_collapsed_integration_kernels(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
 
 
-keyboard;
 
 figure
-plotVariables
 subplot(2,2,1)
 plot(ExpParameters.sorted.short.tau,ExpParameters.sorted.long.tau,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_tau_len(1,2),2)),' ','P= ', num2str(P_tau_len(1,2),2)])
 line([0 4],[0 4])
 xlabel('short')
 ylabel('long')
+xlim([0 4]);ylim([0 4]);
 tidyfig;
 
 subplot(2,2,2)
 plot(ExpParameters.sorted.short.amplitude,ExpParameters.sorted.long.amplitude,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_amp_len(1,2),2)),' ','P= ', num2str(P_amp_len(1,2),2)])
-line([0 0.08],[0 0.08])
+line([0 1],[0 1])
 xlabel('short')
 ylabel('long')
+xlim([0 1]);ylim([0 1]);
 tidyfig;
 
 subplot(2,2,3)
@@ -45,15 +45,17 @@ plot(ExpParameters.sorted.frequent.tau,ExpParameters.sorted.rare.tau,'kd','LineW
 line([0 4],[0 4])
 xlabel('frequent')
 ylabel('rare')
+xlim([0 4]);ylim([0 4]);
 tidyfig;
 
 subplot(2,2,4)
 plot(ExpParameters.sorted.frequent.amplitude,ExpParameters.sorted.rare.amplitude,'kd','LineWidth',1,'MarkerSize',8)
 %title([condition{con},' ','R= ',num2str(round(R_amp_freq(1,2),2)),' ','P= ', num2str(P_amp_freq(1,2),2)])
-line([0 0.08],[0 0.08])
+line([0 1],[0 1])
 xlabel('frequent')
 ylabel('rare')
+xlim([0 1]);ylim([0 1]);
 tidyfig;
+keyboard;
 
-
-end 
+end

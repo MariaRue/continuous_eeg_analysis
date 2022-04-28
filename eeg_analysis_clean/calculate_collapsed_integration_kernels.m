@@ -140,7 +140,7 @@ for condition = 1 : 4
         dt = 0.01;
         num_steps = length(data_new{condition,subject});
         
-        t_sj{condition,subject} = dt : dt : num_steps * dt;
+        t_sj{condition,subject} = -(num_steps-1)*dt:dt:0; %LH edit 280422 to make amplitude interpretable 
         
         
         % initial param guesses for exp model
@@ -150,7 +150,7 @@ for condition = 1 : 4
         
         fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works
         [ExpParameters.parameters(condition,:,subject),~,exitflag(condition,subject)] = fminsearch(fun,pstart,options);
-        
+
     end
 end
 
@@ -214,7 +214,6 @@ ExpParameters.sorted.rare.amplitude = squeeze(ExpParameters.parameters(4,1,:));
 % tau_freq(unique(sj_1_amp)) = []; 
 % tau_rare(unique(sj_1_amp)) = []; 
 
-keyboard;
 confidenceInterval = 0.95; 
 [Correlation.length.coef.tau, Correlation.length.pvalue.tau] = corr(ExpParameters.sorted.short.tau, ExpParameters.sorted.long.tau, 'type', 'Spearman'); 
 [Correlation.length.upperBound.tau, Correlation.length.lowerBound.tau] = calculate_confidence_interval_for_rank_correlation(Correlation.length.coef.tau, nS, confidenceInterval);
