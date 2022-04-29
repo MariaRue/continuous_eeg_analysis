@@ -19,8 +19,8 @@ end
 reference = 'LMRM';
 nS = length(subjectList); %number of subjects
 
-electrodesForPermTest = {'CPz', 'CP1', 'CP2'};
-regressorIDx = 3;
+electrodesForPermTest = {'CPz', 'CP1', 'CP2'}; regressorIDx = 3;
+%electrodesForPermTest = {'C4_C3_LRP'}; regressorIDx = 8;
 
 jumpEvent = 1; %flag that defines specific variables for jump Event regressors or response locked ones ag
 
@@ -29,7 +29,6 @@ jumpEvent = 1; %flag that defines specific variables for jump Event regressors o
 [selectedData, allDataAvg, diffWave, stats, SignificantTimePoints] = ...
          prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
          subjectList, csdFlag, reference, nS, electrodesForPermTest, regressorIDx, jumpEvent);
-     
      
 %% plot 
 

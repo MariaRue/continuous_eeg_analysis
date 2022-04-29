@@ -78,9 +78,9 @@ for subject = 1:length(subjectList)
             end
             
             end
+
         end 
     end
-    
     % save betas 
      save(paths.(reference).subjectLevelGLM.(glmFlag).saveName,'betas_subject' ,'chanlabels');
     

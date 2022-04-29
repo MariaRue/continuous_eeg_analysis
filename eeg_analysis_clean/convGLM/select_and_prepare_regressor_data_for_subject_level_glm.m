@@ -95,6 +95,7 @@ coherence_jump = abs([0; diff(coherence)])>0; %regressor values for coherence 'j
 
 coherence_jump_level = coherence_jump.*abs(coherence); %regressor values for coherence levels of those 'jumps'
 
+coherence_jump_level_signed = coherence_jump.*coherence; %regressor values for coherence levels of those 'jumps', signed by left/right motion
 
 % demean coherence jump level - but only non-zero values -
 mean_coh_jump_lev = mean(coherence_jump_level(coherence_jump_level ~= 0));
@@ -163,13 +164,15 @@ mean_stim(mean_stim ~= 0) = 1;
 mean_coherence = logical(mean_stim); % logical pointing to trial periods
 coherence_jump(mean_coherence) = 0;
 coherence_jump_level(mean_coherence) = 0;
+coherence_jump_level_signed(mean_coherence) = 0;
 coherence_level_difference(mean_coherence) = 0;
-
+signed_stimulus = coherence; coherence(mean_coherence) = 0;
 
 % build structure will all regressors from which we later select the
 % regressors we need for a specific GLM model
 all_regressors.coherence_jump           = coherence_jump;
 all_regressors.coherence_jump_level     = coherence_jump_level;
+all_regressors.coherence_jump_level_signed= coherence_jump_level_signed;
 all_regressors.prediction_error         = coherence_level_difference;
 all_regressors.trial_start              = correct_trial_starts;
 all_regressors.correct_trial_response   = correct_responses;
@@ -177,6 +180,6 @@ all_regressors.false_alarm              = false_alarm_responses;
 all_regressors.difference_waveform_correct_trial_response = correct_responses_diff;
 all_regressors.difference_waveform_false_alarm = false_alarm_responses_diff;
 all_regressors.absoluted_stimulus       = abs(coherence);
+all_regressors.signed_stimulus          = signed_stimulus;
 all_regressors.coherence_responses      = coherence_responses; 
-
 end

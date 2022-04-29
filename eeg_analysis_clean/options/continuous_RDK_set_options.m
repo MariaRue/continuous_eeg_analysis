@@ -144,6 +144,10 @@ options.subjectLevelGLM.allRegressors(14).nLagsBack = 150;
 options.subjectLevelGLM.allRegressors(14).nLagsForward = 150;
 options.subjectLevelGLM.allRegressors(14).timeBins = (1000/Fs)*[-options.subjectLevelGLM.allRegressors(14).nLagsBack : options.subjectLevelGLM.allRegressors(14).nLagsForward];
 
+options.subjectLevelGLM.allRegressors(15).name = 'signed_stimulus';
+options.subjectLevelGLM.allRegressors(15).nLagsBack = 150;
+options.subjectLevelGLM.allRegressors(15).nLagsForward = 150;
+options.subjectLevelGLM.allRegressors(15).timeBins = (1000/Fs)*[-options.subjectLevelGLM.allRegressors(15).nLagsBack : options.subjectLevelGLM.allRegressors(15).nLagsForward];
 
 
 %-- set GLM types---------------------------------------------------------%
@@ -165,7 +169,7 @@ options.subjectLevelGLM.coherence_responses.name = 'coherence_responses';
 options.subjectLevelGLM.vertical_jumps_absolute.regressors = options.subjectLevelGLM.allRegressors([1:7,11:14]);
 options.subjectLevelGLM.coherence_responses.name = 'vertical_jumps_absolute';
 
-options.subjectLevelGLM.all_regressors.regressors = options.subjectLevelGLM.allRegressors([1:10]);
+options.subjectLevelGLM.all_regressors.regressors = options.subjectLevelGLM.allRegressors([1:10 15]);
 options.subjectLevelGLM.coherence_responses.name = 'all_regressors';
 
 %-- set conventional timelocked analysis options-------------------------%
