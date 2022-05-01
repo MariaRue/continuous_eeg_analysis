@@ -38,11 +38,21 @@ betas_all_subjects_sessavg = average_betas_across_sessions (betas_all_subjects, 
 
 %% now load in the Taus from behavioural analysis (calculated using integration_kernels_for_within_subject_comparisons)
 
-load('behaviouralAnalysis/stored_integration_kernels.mat','allTau','subj_list_behav');
+%load('behaviouralAnalysis/stored_integration_kernels.mat','allTau','subj_list_behav');
 
-%reduce allTau down to the subjects who are in subjectList
-[~,~,ai] = intersect(subjectList,subj_list_behav');
-allTau_reduced = allTau(ai,:);
+%behavioural figure for trial periods
+lags = 500;
+EEGpreproc = options.path.preproc.behaviour;  % path to behav data all subjs
+load_name = fullfile(EEGpreproc,'behav_data_all_subjs_all3');
+load(load_name)
+completeSubjectListBehaviour = unique(all_responses(:,12));
+%get behavioural subjects who are in subjectList from EEG
+[~,~,SubjectListBehaviourEEG] = intersect(subjectList,completeSubjectListBehaviour');
+nS = length(SubjectListBehaviourEEG);
+
+[~, ~, ~, ExpParameters] =  calculate_integration_kernels(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
+
+allTau_reduced = squeeze(ExpParameters.parameters(:,2,:))';
 
 %and average and demean this for inclusion in Spearman's correlation:
 allTau_reduced_dm = mean(allTau_reduced,2);
@@ -86,7 +96,7 @@ figure
 subplot(2,1,1);
 set(gcf, 'PaperUnits', 'inches');
 set(gcf, 'PaperSize', [200 100]);
-set(gcf, 'Position',  [500   234   959   766]);
+set(gcf, 'Position',  [446  226 1023  876]);
 
 hold on
 for condition = 1:4
