@@ -55,7 +55,7 @@ plotVariables.figure4.paperSize =  [200 100];
 plotVariables.figure4.position = [500, 500, 700, 500];
 
 plotVariables.figure4.LineWidth = 2; 
-plotVariables.figure4.Colour = [0 0 0]; 
+plotVariables.figure4.Colour = cbrewer('qual', 'Paired',4);
 plotVariables.figure4.xlim = [-0.1 0.8]; 
 plotVariables.figure4.ERP.ylim = [-0.6 0.6]; 
 %%

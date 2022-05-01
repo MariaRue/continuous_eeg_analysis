@@ -119,37 +119,37 @@ coherence_level_difference(coherence_level_difference ~= 0) =  coherence_level_d
 
 %%----------VERTICAL----------------------------------------------%%%%%%%%%
 if vertical
-coherence_vertical = vertical_stim_streams{stream_sj,session}(:,condition); %vector of coherence levels for this block
-coherence_vertical(coherence_vertical>1) = 1; coherence_vertical(coherence_vertical<-1) = -1; % in presentation code, if abs(coherence) is >1
-
-
-coherence_jump_vertical = abs([0; diff(coherence_vertical)])>0; %vector of coherence 'jumps'
-coherence_jump_level_vertical = coherence_jump_vertical .* abs(coherence_vertical);
-
-diff_coherences_vertical = diff(coherence_vertical(coherence_jump_vertical));
-diff_coherences_vertical = [coherence_vertical(1); diff_coherences_vertical]; % differnce to prev cohernce for first coherence is that coherence itself
-jump_idx_v = find(coherence_jump_vertical);
-coherence_level_difference_vertical = zeros(size(coherence_vertical,1),1);
-coherence_level_difference_vertical(jump_idx_v) = abs(diff_coherences_vertical);
-
-% demean coherence jump level - but only non-zero values -
-% not the zeros!!!!
-mean_coh_jump_lev_vertical = mean(coherence_jump_level_vertical(coherence_jump_level_vertical ~= 0));
-coherence_jump_level_vertical(coherence_jump_level_vertical ~= 0) = coherence_jump_level_vertical(coherence_jump_level_vertical ~= 0) - mean_coh_jump_lev_vertical;
-
-mean_coherence_level_difference_vertical = mean(coherence_level_difference_vertical(coherence_level_difference_vertical ~= 0));
-coherence_level_difference_vertical(coherence_level_difference_vertical ~= 0) = coherence_level_difference_vertical(coherence_level_difference_vertical ~= 0) - mean_coherence_level_difference_vertical;
-
-
-
-all_regressors.coherence_jump_vertical           = coherence_jump_vertical;
-all_regressors.coherence_jump_level_vertical     = coherence_jump_level_vertical;
-all_regressors.prediction_error_vertical         = coherence_level_difference_vertical;
-all_regressors.absoluted_stimulus_vertical       = abs(coherence_vertical);
-
-
-end 
-% 
+    coherence_vertical = vertical_stim_streams{stream_sj,session}(:,condition); %vector of coherence levels for this block
+    coherence_vertical(coherence_vertical>1) = 1; coherence_vertical(coherence_vertical<-1) = -1; % in presentation code, if abs(coherence) is >1
+    
+    
+    coherence_jump_vertical = abs([0; diff(coherence_vertical)])>0; %vector of coherence 'jumps'
+    coherence_jump_level_vertical = coherence_jump_vertical .* abs(coherence_vertical);
+    
+    diff_coherences_vertical = diff(coherence_vertical(coherence_jump_vertical));
+    diff_coherences_vertical = [coherence_vertical(1); diff_coherences_vertical]; % differnce to prev cohernce for first coherence is that coherence itself
+    jump_idx_v = find(coherence_jump_vertical);
+    coherence_level_difference_vertical = zeros(size(coherence_vertical,1),1);
+    coherence_level_difference_vertical(jump_idx_v) = abs(diff_coherences_vertical);
+    
+    % demean coherence jump level - but only non-zero values -
+    % not the zeros!!!!
+    mean_coh_jump_lev_vertical = mean(coherence_jump_level_vertical(coherence_jump_level_vertical ~= 0));
+    coherence_jump_level_vertical(coherence_jump_level_vertical ~= 0) = coherence_jump_level_vertical(coherence_jump_level_vertical ~= 0) - mean_coh_jump_lev_vertical;
+    
+    mean_coherence_level_difference_vertical = mean(coherence_level_difference_vertical(coherence_level_difference_vertical ~= 0));
+    coherence_level_difference_vertical(coherence_level_difference_vertical ~= 0) = coherence_level_difference_vertical(coherence_level_difference_vertical ~= 0) - mean_coherence_level_difference_vertical;
+    
+    
+    
+    all_regressors.coherence_jump_vertical           = coherence_jump_vertical;
+    all_regressors.coherence_jump_level_vertical     = coherence_jump_level_vertical;
+    all_regressors.prediction_error_vertical         = coherence_level_difference_vertical;
+    all_regressors.absoluted_stimulus_vertical       = abs(coherence_vertical);
+    
+    
+end
+%
 
 %%--------------------------------------------------------------%%%%%%%%%%%
 
@@ -181,5 +181,5 @@ all_regressors.difference_waveform_correct_trial_response = correct_responses_di
 all_regressors.difference_waveform_false_alarm = false_alarm_responses_diff;
 all_regressors.absoluted_stimulus       = abs(coherence);
 all_regressors.signed_stimulus          = signed_stimulus;
-all_regressors.coherence_responses      = coherence_responses; 
+all_regressors.coherence_responses      = coherence_responses;
 end
