@@ -20,42 +20,61 @@ nS = length(SubjectListBehaviourEEG);
 
 
 
-figure
+fh = figure;
 subplot(2,2,1)
-plot(ExpParameters.sorted.short.tau,ExpParameters.sorted.long.tau,'kd','LineWidth',1,'MarkerSize',8)
-%title([condition{con},' ','R= ',num2str(round(R_tau_len(1,2),2)),' ','P= ', num2str(P_tau_len(1,2),2)])
-line([0 4],[0 4])
-xlabel('short')
-ylabel('long')
+line([0 4],[0 4], 'color', 'k', 'linewidth', 1);
+hold on;
+plot(ExpParameters.sorted.short.tau,ExpParameters.sorted.long.tau, ...
+    'o', 'LineWidth', 1, 'MarkerSize', 10, 'MarkerFaceColor', [0.8 0.8 0.8], 'Color', [1 150 200]/255);
+xlabel('\tau short')
+ylabel('\tau long')
 xlim([0 4]);ylim([0 4]);
+xticks(0:4); yticks(0:4);
 tidyfig;
+hAx = gca; hAx.LineWidth = 1; hAx.TickLength = [0.025 0.025];
+box off
 
 subplot(2,2,2)
-plot(ExpParameters.sorted.short.amplitude,ExpParameters.sorted.long.amplitude,'kd','LineWidth',1,'MarkerSize',8)
-%title([condition{con},' ','R= ',num2str(round(R_amp_len(1,2),2)),' ','P= ', num2str(P_amp_len(1,2),2)])
-line([0 1],[0 1])
-xlabel('short')
-ylabel('long')
+line([0 1],[0 1], 'color', 'k', 'linewidth', 1);
+hold on;
+plot(ExpParameters.sorted.short.amplitude,ExpParameters.sorted.long.amplitude, ...
+    'o', 'LineWidth', 1, 'MarkerSize', 10, 'MarkerFaceColor', [0.8 0.8 0.8], 'Color', [1 150 200]/255);
+
+xlabel('A short')
+ylabel('A long')
 xlim([0 1]);ylim([0 1]);
+xticks(0:0.5:1); yticks(0:0.5:1);
 tidyfig;
+hAx = gca; hAx.LineWidth = 1; hAx.TickLength = [0.025 0.025];
+box off
 
 subplot(2,2,3)
-plot(ExpParameters.sorted.frequent.tau,ExpParameters.sorted.rare.tau,'kd','LineWidth',1,'MarkerSize',8)
-%title([condition{con},' ','R= ',num2str(round(R_tau_freq(1,2),2)),' ','P= ', num2str(P_tau_freq(1,2),2)])
-line([0 4],[0 4])
-xlabel('frequent')
-ylabel('rare')
+line([0 4],[0 4], 'color', 'k', 'linewidth', 1);
+hold on;
+plot(ExpParameters.sorted.frequent.tau,ExpParameters.sorted.rare.tau, ...
+    'o', 'LineWidth', 1, 'MarkerSize', 10, 'MarkerFaceColor', [0.8 0.8 0.8], 'Color', [1 150 200]/255);
+xlabel('\tau frequent')
+ylabel('\tau rare')
 xlim([0 4]);ylim([0 4]);
+xticks(0:4); yticks(0:4);
 tidyfig;
+hAx = gca; hAx.LineWidth = 1; hAx.TickLength = [0.025 0.025];
+box off;
 
 subplot(2,2,4)
-plot(ExpParameters.sorted.frequent.amplitude,ExpParameters.sorted.rare.amplitude,'kd','LineWidth',1,'MarkerSize',8)
-%title([condition{con},' ','R= ',num2str(round(R_amp_freq(1,2),2)),' ','P= ', num2str(P_amp_freq(1,2),2)])
-line([0 1],[0 1])
-xlabel('frequent')
-ylabel('rare')
+line([0 1],[0 1], 'color', 'k', 'linewidth', 1);
+hold on;
+plot(ExpParameters.sorted.frequent.amplitude,ExpParameters.sorted.rare.amplitude, ...
+    'o', 'LineWidth', 1, 'MarkerSize', 10, 'MarkerFaceColor', [0.8 0.8 0.8], 'Color', [1 150 200]/255);
+xlabel('A frequent')
+ylabel('A rare')
 xlim([0 1]);ylim([0 1]);
+xticks(0:0.5:1); yticks(0:0.5:1);
 tidyfig;
+hAx = gca; hAx.LineWidth = 1; hAx.TickLength = [0.025 0.025];
+box off
+
+fh.Position = [1831 243 884 725];
 
 %% STATS TESTING
 % frequent vs. rare tau
