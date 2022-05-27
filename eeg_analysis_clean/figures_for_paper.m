@@ -10,8 +10,8 @@ make_figure1(plotVariables,options);
 make_figure2(plotVariables,options);
 
 %% figure 3: split by horizontal and vertical motion (all different regressors; only n=6 subjects)
-make_figure3_LOCAL_5567(plotVariables,options);
-
+%make_figure3_LOCAL_5567(plotVariables,options);
+mf3_mexican_hat(plotVariables,options);
 %% figure 4: cross-subject correlation with Tau?
 make_figure4(plotVariables,options);
 

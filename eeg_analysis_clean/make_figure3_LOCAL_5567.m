@@ -1,4 +1,4 @@
-function make_figure2(plotVariables,options)
+function make_figure3_LOCAL_5567(plotVariables,options)
 
 glmFlag = 'vertical_jumps_absolute';
 
@@ -20,7 +20,7 @@ electrodesForPermTest = {'CPz', 'CP1', 'CP2'};
 
 jumpEvent = 1; %flag that defines specific variables for jump Event regressors or response locked ones ag
 
-
+keyboard;
 %% prepare data for ploting
 HorzJumpRegressorIDx = 1;
 [HorzJumpSelectedData, HorzJumpAllDataAvg, ~, ~, ~] = ...

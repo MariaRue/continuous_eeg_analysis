@@ -182,4 +182,7 @@ electrodesForPermTest = {'CPz', 'CP1', 'CP2'};
 subplot(4,5,20);
 create_topo_plot(CPAbsolutedStimAllDataAvg,0.45, 0.55, plotVariables.figure5.topoPlot.absoluteStimRegressor.zlim, electrodesForPermTest, plotVariables.figure5.topoPlot.colour);
 tidyfig; 
+
+keyboard;
+
 end
