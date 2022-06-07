@@ -1,6 +1,6 @@
 glmFlag = 'all_regressors';
 doReg = false; %apply regularisation?
-lambda = 17.6; %4 * value used in Gonclaves et al 2014 (as our regularisation matrix is same as theirs, divided by 4)
+lambda =    17.60; %4 * value used in Gonclaves et al 2014 (as our regularisation matrix is same as theirs, divided by 4)
 vertical = 0;
 options = continuous_RDK_set_options('LTHiMac');
 % load all_responses,stim_streams, mean_stim_streams

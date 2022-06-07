@@ -172,6 +172,9 @@ options.subjectLevelGLM.coherence_responses.name = 'vertical_jumps_absolute';
 options.subjectLevelGLM.all_regressors.regressors = options.subjectLevelGLM.allRegressors([1:10 15]);
 options.subjectLevelGLM.coherence_responses.name = 'all_regressors';
 
+options.subjectLevelGLM.all_regressors_with_reg.regressors = options.subjectLevelGLM.allRegressors([1:10 15]);
+options.subjectLevelGLM.coherence_responses.name = 'all_regressors_with_reg'; %same as above but with regularisation switched on
+
 %-- set conventional timelocked analysis options-------------------------%
 options.singleTrial.buttonPress.preStim = 7; 
 options.singleTrial.buttonPress.postStim = 4; 

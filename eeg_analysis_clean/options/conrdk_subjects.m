@@ -81,13 +81,10 @@ else
     paths.(reference).subjectLevelGLM.coherence_responses.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_coherence_responses.mat',id));
     paths.(reference).subjectLevelGLM.vertical_jumps_absolute.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_vertical_jumps_absolute.mat',id));
     paths.(reference).subjectLevelGLM.all_regressors.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_all_regressors.mat',id));
+    paths.(reference).subjectLevelGLM.all_regressors_with_reg.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_all_regressors_regularised.mat',id));
      
     
-    %paths.(reference).singleTrial.appendedData.trialStart = fullfile(options.path.EEG.analysis,'test_April_2020',['trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
-    %     paths.(reference).singleTrial.appendedData.buttonPress = fullfile(options.path.EEG.analysis,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
-    %
     paths.(reference).singleTrial.appendedData.trialStart = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['trial_start_locked_EEG_dat_',sprintf('sub%03.0f',id),'.mat']);
-    %paths.(reference).singleTrial.appendedData.buttonPress = fullfile(options.path.EEG.analysis,'conventionalEEGAnalysis',reference,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
     paths.(reference).singleTrial.appendedData.buttonPress = fullfile('/Volumes/crdkData','conventionalEEGAnalysis',reference,['response_locked_EEG_dat',sprintf('sub%03.0f',id),'.mat']);
     
 end
@@ -104,14 +101,9 @@ for session = 1:length(details.sessionIDs)
 
 
         paths.(reference).continuousPreproc(session).sessionList = fullfile(paths.referenceType.(reference),sprintf('cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
-        %
         paths.(reference).singleTrial.preproc(session).preprocSessionList = fullfile(paths.preprocessed.SPM,sprintf('nanart_cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
-        % paths.(reference).singleTrial.preproc(session).preprocSessionList = fullfile(paths.referenceType.(reference),sprintf('fMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
 
     end
-
-    % paths.(reference).continuousPreproc(session).sessionList = fullfile(paths.referenceType.averageReference,sprintf('fMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
-    % paths.(reference).csd.continuousPreproc(session).sessionList = fullfile(paths.referenceType.averageReference,sprintf('cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.sessionIDs(session)));
 
     paths.behaviour(session).sessionList = fullfile(options.path.EEG.subjects,sprintf('sub%03.0f',id),'behaviour',sprintf('sub%03.0f_sess%03.0f_behav.mat',id,details.sessionIDs(session)));
     paths.stimulus(session).sessionList = fullfile(options.path.EEG.subjects,sprintf('sub%03.0f',id),'stim',sprintf('sub%03.0f_sess%03.0f_stim.mat',id,details.sessionIDs(session)));

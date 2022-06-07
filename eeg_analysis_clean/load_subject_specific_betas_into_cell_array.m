@@ -12,6 +12,7 @@ for subject = 1:nS
     betaSubject = load( paths.(reference).subjectLevelGLM.(glmFlag).saveName);
     
     % get chanlabes = needed later for preparing data for permtest 
+    
     chanlabels = betaSubject.chanlabels; 
     
     for regressor = 1:length(options.subjectLevelGLM.(glmFlag).regressors)

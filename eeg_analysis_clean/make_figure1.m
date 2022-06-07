@@ -41,7 +41,7 @@ set(gcf, 'Position',  plotVariables.figure1.position);
 subplot(3,2,1)
 hold on 
 % plot frequent ERP
-create_ERP_plot(selectedData.Average.Freq.time, selectedData.Average.Freq.avg,diffWave.Avg.diffWaveFreqVSRare.se,plotVariables.figure1.ERP.colour(1,:),plotVariables.figure1.LineWidth)
+create_ERP_plot(selectedData.Average.Freq.time, selectedData.Average.FreqLong.avg,diffWave.Avg.diffWaveFreqVSRare.se,plotVariables.figure1.ERP.colour(1,:),plotVariables.figure1.LineWidth)
 % plot rare ERP
 create_ERP_plot(selectedData.Average.Rare.time, selectedData.Average.Rare.avg,diffWave.Avg.diffWaveFreqVSRare.se,plotVariables.figure1.ERP.colour(2,:),plotVariables.figure1.LineWidth)
 
