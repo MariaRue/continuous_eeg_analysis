@@ -27,8 +27,7 @@ lags = 500;
 
 
 
-figure (6);
-set(gcf,'Position',[212    412    1026   856]);
+figure (6)
 %% detect rate 
 subplot(2,2,1)
 hold on
@@ -40,7 +39,7 @@ errorbar(coherence,detectRate.groupLevel(:,4), detectRate.groupLevelSe(:,4),'x-'
 xlim([0.2 0.6])
 xlabel('response period coherence')  
 ylabel('correct detection rate') 
-legend(plotVariables.originalConditions,'Location','SouthEast')
+legend(plotVariables.originalConditions)
 tidyfig;
 hold off
 
@@ -55,9 +54,8 @@ for condition = 1:4
  ln = plot([ones(nS,1).*condition],squeeze(falseAlarmRate.subjectLevel(condition,:)),'.','MarkerSize',plotVariables.figure6.falseAlarmRate.MarkerSize,'LineWidth',plotVariables.figure6.falseAlarmRate.LineWidth, 'Color', plotVariables.figure6.falseAlarmRate.Color);
  
 end 
-ylabel('false alarm rate (responses/min)');
-ylim([0 5]);
-xticks([1 2 3 4]);
+ylabel('false alarm rate per [s]')
+xticks([1 2 3 4])
 xticklabels(plotVariables.originalConditions)
 
 hold off 
@@ -84,25 +82,22 @@ hold on
 %     
 %     x = x + 1.5; 
 % end 
-% legend(b(1:4),plotVariables.originalConditions)
-
 
 %line graph version (new)
 
+figure;hold on;
 errorbar(coherence,ReactionTimes.groupLevel(:,1), ReactionTimes.groupLevelSe(:,1),'x-','Color',plotVariables.figure6.colours(1,:),'LineWidth',plotVariables.figure6.reactionTimes.LineWidth)
 errorbar(coherence,ReactionTimes.groupLevel(:,2), ReactionTimes.groupLevelSe(:,2),'x-','Color',plotVariables.figure6.colours(2,:),'LineWidth',plotVariables.figure6.reactionTimes.LineWidth)
 errorbar(coherence,ReactionTimes.groupLevel(:,3), ReactionTimes.groupLevelSe(:,3),'x-','Color',plotVariables.figure6.colours(3,:),'LineWidth',plotVariables.figure6.reactionTimes.LineWidth)
 errorbar(coherence,ReactionTimes.groupLevel(:,4), ReactionTimes.groupLevelSe(:,4),'x-','Color',plotVariables.figure6.colours(4,:),'LineWidth',plotVariables.figure6.reactionTimes.LineWidth)
 ylim([1.5 2.75]);
-xlim([0.2 0.6]);
-xticks([0.3 0.4 0.5]);
-
-xlabel('Response period coherence');  
-ylabel('Median reaction time (s)');
-
 hold off
 
-
+ xticks([2.5, 8, 13.5])
+ xticklabels([0.3 0.4 0.5])
+ xlabel('coherence')
+ ylabel('median rt < 3.5s trials only???')
+ legend(b(1:4),plotVariables.originalConditions)
 tidyfig
 %% integration kernels 
 
@@ -141,7 +136,7 @@ end
 hold off
 ylim([-0.1 0.65])
 
-legend(b(1:4),plotVariables.originalConditions,'Location','NorthWest')
+legend(b(1:4),plotVariables.originalConditions)
 
 tidyfig;
 end

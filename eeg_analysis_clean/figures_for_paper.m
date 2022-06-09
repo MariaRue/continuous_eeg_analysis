@@ -6,8 +6,13 @@ plotStructure; %returns plotVariables to workspace
 %% figure 2: just the main effect across all conditions, to show at start of paper
 make_figure2(plotVariables, options); %n.b. used to be make_figure5.m
 
+%% figure 3a: figure to show example of 2*2 interaction design
+
+make_figure3a(plotVariables, options);
+
 %% figure 1: plots prediction error effect sorted by long vs. short, rare vs. frequent
 make_figure1(plotVariables,options);
+
 
 
 %% figure 3: split by horizontal and vertical motion (all different regressors; only n=6 subjects)

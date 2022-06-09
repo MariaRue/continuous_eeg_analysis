@@ -19,7 +19,7 @@ for subject = 1:nS
             
             FA_rate(sessionID, subjectID, condition) = FA_num/time_ITI_sec;
             
-            
+            FA_rate(sessionID, subjectID, condition) = FA_rate(sessionID, subjectID, condition)*60; %convert to minutes
         end
     end
     
