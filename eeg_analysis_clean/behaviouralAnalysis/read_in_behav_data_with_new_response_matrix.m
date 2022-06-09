@@ -9,7 +9,7 @@
 
 
 %% define subjects and and pathways
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 subjectList = [62:64,66,68,70];
 
 reference = 'LMRM';
