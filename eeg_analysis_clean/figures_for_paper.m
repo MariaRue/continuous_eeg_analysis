@@ -10,6 +10,10 @@ make_figure2(plotVariables, options); %n.b. used to be make_figure5.m
 
 make_figure3a(plotVariables, options);
 
+%% figure 3 bcd: behavioural figure during response preiods: detection rate, RTs, Integration kernels
+make_figure3bcd(plotVariables, options)
+
+
 %% figure 1: plots prediction error effect sorted by long vs. short, rare vs. frequent
 make_figure1(plotVariables,options);
 
@@ -24,8 +28,6 @@ make_figure4(plotVariables,options);
 %% figure 5: plots ramp to response, sorted by long vs. short, rare vs. frequent
 make_figure5(plotVariables,options); 
 
-%% figure 6: behavioural figure detection rate, FAs, RTs, Integration kernels
-make_figure6(plotVariables, options)
 
 %% figure 7: signal period behav figure
 make_figure7(plotVariables, options)

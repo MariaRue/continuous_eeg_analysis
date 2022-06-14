@@ -1,4 +1,3 @@
-
 function [sig_tps,p,tbl] = shuffled_permutation_test_Fscore(mean_coherences, lags, thres, repetitions, anova_samples, plt,nS)
 % loop through time points and calculate F-scores for original collect
 % labelling

@@ -8,12 +8,12 @@ reference = 'LMRM';
 csdFlag = 0;
 
 [details,paths] =  conrdk_subjects(subID,options,reference,csdFlag); 
-file_ID_behaviour = paths.behaviour(se).sessionList;
+file_ID_behaviour = paths.behaviour(1).sessionList;
 
 response_mat= load(file_ID_behaviour,'respMat','B'); % responses
 
 figure;
-set(gcf,'Position',[138   300   998   770]);
+set(gcf,'Position',[138         300        1387         770]);
 for i = 1:4; 
     subplot(2,2,i); 
     ss = response_mat.B.mean_coherence{i};
