@@ -41,11 +41,7 @@ end
 cfg.method = 'montecarlo';
 cfg.statistic = 'ft_statfun_depsamplesT';
 cfg.correctm = 'cluster';
-if jumpRegressor
-    cfg.clusteralpha = 0.085; % this is just for thresholding - equivalent to T>1.8 - using a lenient threshold as high-freq. noise means clusters often discontinuous when they should be clustered.
-else
-    clf.clusteralpha = 0.05; 
-end
+cfg.clusteralpha = 0.0.05; % this is just for thresholding - using a lenient threshold as high-freq. noise means clusters often discontinuous when they should be clustered.
 cfg.clusterstatistic = 'maxsum';
 cfg.minnbchan = 0;
 cfg.tail = 0;

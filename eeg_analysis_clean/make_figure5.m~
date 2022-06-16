@@ -1,11 +1,7 @@
-function make_figure1(plotVariables, options)
-
-
+edfunction make_figure5(plotVariables, options)
 
 
 glmFlag = 'all_regressors';
-
-
 
 % subject list
 subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
@@ -41,9 +37,9 @@ set(gcf, 'Position',  plotVariables.figure1.position);
 subplot(3,2,1)
 hold on 
 % plot frequent ERP
-create_ERP_plot(selectedData.Average.Freq.time, selectedData.Average.FreqLong.avg,diffWave.Avg.diffWaveFreqVSRare.se,plotVariables.figure1.ERP.colour(1,:),plotVariables.figure1.LineWidth)
+create_ERP_plot(selectedData.Average.Freq.time, selectedData.Average.Freq.avg,selectedData.Average.Freq.se,plotVariables.figure1.ERP.colour(1,:),plotVariables.figure1.LineWidth)
 % plot rare ERP
-create_ERP_plot(selectedData.Average.Rare.time, selectedData.Average.Rare.avg,diffWave.Avg.diffWaveFreqVSRare.se,plotVariables.figure1.ERP.colour(2,:),plotVariables.figure1.LineWidth)
+create_ERP_plot(selectedData.Average.Rare.time, selectedData.Average.Rare.avg,selectedData.Average.Rare.se,plotVariables.figure1.ERP.colour(2,:),plotVariables.figure1.LineWidth)
 
 % plot significant time points, if there are any 
 if any(SignificantTimePoints.Frequency)
@@ -70,10 +66,10 @@ hold off
 subplot(3,2,2)
 hold on 
 % plot short ERP
-create_ERP_plot(selectedData.Average.Short.time, selectedData.Average.Short.avg,diffWave.Avg.diffWaveShortVSLong.se,plotVariables.figure1.ERP.colour(3,:),plotVariables.figure1.LineWidth)
+create_ERP_plot(selectedData.Average.Short.time, selectedData.Average.Short.avg,selectedData.Average.Short.se,plotVariables.figure1.ERP.colour(3,:),plotVariables.figure1.LineWidth)
 
 % plot long ERP
-create_ERP_plot(selectedData.Average.Long.time, selectedData.Average.Long.avg,diffWave.Avg.diffWaveShortVSLong.se,plotVariables.figure1.ERP.colour(5,:),plotVariables.figure1.LineWidth)
+create_ERP_plot(selectedData.Average.Long.time, selectedData.Average.Long.avg,selectedData.Average.Long.se,plotVariables.figure1.ERP.colour(5,:),plotVariables.figure1.LineWidth)
 
 % plot significant time points, if there are any 
 if any(SignificantTimePoints.Length)

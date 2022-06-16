@@ -1,101 +1,162 @@
-function make_figure7(plotVariables, options)
+function make_figure7(plotVariables,options)
 
-%behavioural figure for trial periods 
-
-
-subjectListEEG = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
-
-lags = 500;
-EEGpreproc = options.path.preproc.behaviour;  % path to behav data all subjs
-load_name = fullfile(EEGpreproc,'behav_data_all_subjs_all3');
-load(load_name)
-completeSubjectListBehaviour = unique(all_responses(:,12));
-%get behavioural subjects who are in subjectList from EEG
-[~,~,SubjectListBehaviourEEG] = intersect(subjectListEEG,completeSubjectListBehaviour');
-nS = length(SubjectListBehaviourEEG); 
-coherence = [0.3 0.4 0.5]; 
+glmFlag = 'vertical_jumps_absolute';
 
 
-% detection rate
-detectRate = calculate_detect_rate(all_responses,SubjectListBehaviourEEG,nS,coherence, mean_stim_streams);
 
-% reaction times 
-ReactionTimes = calculate_reaction_times_for_lineGraph(all_responses,SubjectListBehaviourEEG,nS,coherence);
+% subject list
+subjectList = [62:64,66,68,70]; % vertical motion only
 
-% integration kernels signal periods 
-
-[GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints, ] = calculate_integration_kernels_for_signal_periods(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
-
-
-%% plotting 
-
-figure (7) 
-
-subplot(3,1,1)
-hold on
-
-errorbar(coherence,detectRate.groupLevel(:,1), detectRate.groupLevelSe(:,1),'x-','Color',plotVariables.figure6.colours(1,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-errorbar(coherence,detectRate.groupLevel(:,2), detectRate.groupLevelSe(:,2),'x-','Color',plotVariables.figure6.colours(2,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-errorbar(coherence,detectRate.groupLevel(:,3), detectRate.groupLevelSe(:,3),'x-','Color',plotVariables.figure6.colours(3,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-errorbar(coherence,detectRate.groupLevel(:,4), detectRate.groupLevelSe(:,4),'x-','Color',plotVariables.figure6.colours(4,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-xlim([0.2 0.6])
-xlabel('trial??? coherence')  
-ylabel('detect rate') 
-legend(plotVariables.originalConditions)
-tidyfig;
-hold off
-
-subplot(3,1,2)
-hold on
-
-errorbar(coherence,ReactionTimes.groupLevelMean(:,1), ReactionTimes.groupLevelSE(:,1),'x-','Color',plotVariables.figure6.colours(1,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-errorbar(coherence,ReactionTimes.groupLevelMean(:,2), ReactionTimes.groupLevelSE(:,2),'x-','Color',plotVariables.figure6.colours(2,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-errorbar(coherence,ReactionTimes.groupLevelMean(:,3), ReactionTimes.groupLevelSE(:,3),'x-','Color',plotVariables.figure6.colours(3,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-errorbar(coherence,ReactionTimes.groupLevelMean(:,4), ReactionTimes.groupLevelSE(:,4),'x-','Color',plotVariables.figure6.colours(4,:),'LineWidth',plotVariables.figure6.detectRate.LineWidth)
-xlim([0.2 0.6])
-xlabel('trial??? coherence')  
-ylabel('reaction time') 
-legend(plotVariables.originalConditions)
-tidyfig;
-hold off
-
-
-subplot(3,1,3) 
-for condition = 1:4
-
-   hold on
-   b(condition) = plot(GroupIntegrationKernels.mean(:,condition), 'LineWidth', plotVariables.figure6.IntegrationKernels.LineWidth,'Color',plotVariables.figure6.colours(condition,:));
-    hold on
-    h = shadedErrorBar(1:lags+1,GroupIntegrationKernels.mean(:,condition),(GroupIntegrationKernels.sem(:,condition)), 'lineprops', 'k-')
-    h.patch.FaceColor = plotVariables.figure6.colours(condition,:);
-    h.mainLine.Color = plotVariables.figure6.colours(condition,:);
-    
-    
-    title('mean coherence leading to a button press')
-    xlim([0 501])
-    
-    %tidyfig
-    xticks([0:100:500])
-    xticklabels([-5 -4 -3 -2 -1 0])
-    if condition == 1
-        xlabel('time to button press [s]')
-        ylabel('mean coherence')
-    end
+csdFlag = 0; % 1 for csd transformed data
+if csdFlag %temporary fix for bug in first subjects' CSD transform
+    subjectList(1) = [];
 end
-plot(1:lags+1,zeros(lags+1,1),'k--','LineWidth',plotVariables.figure6.IntegrationKernels.LineWidth)
-hold on 
 
-for id = 1 
-    
-plot(SignificantTimePoints{id},ones(length(SignificantTimePoints{id}),1).* 0.6,'.','MarkerSize',plotVariables.figure6.IntegrationKernels.MarkerSize,'Color',plotVariables.figure6.IntegrationKernels.Color)
+reference = 'LMRM';
+nS = length(subjectList); %number of subjects
 
-   
-end
-hold off
-ylim([-0.1 0.65])
+electrodesForPermTest = {'CPz', 'CP1', 'CP2'};
 
-legend(b(1:4),plotVariables.originalConditions)
 
+jumpEvent = 1; %flag that defines specific variables for jump Event regressors or response locked ones ag
+
+%% prepare data for ploting
+HorzJumpRegressorIDx = 1;
+[HorzJumpSelectedData, HorzJumpAllDataAvg, ~, ~, ~] = ...
+    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
+    subjectList, csdFlag, reference, nS, electrodesForPermTest, HorzJumpRegressorIDx, jumpEvent);
+
+VertJumpRegressorIDx = 8;
+[VertJumpSelectedData, VertJumpAllDataAvg, ~, ~, ~] = ...
+    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
+    subjectList, csdFlag, reference, nS, electrodesForPermTest, VertJumpRegressorIDx, jumpEvent);
+ 
+
+[diffWave.Avg.diffWaveJump, ~] = calculate_difference_waveform(HorzJumpSelectedData.subjectLevel.All, VertJumpSelectedData.subjectLevel.All);
+
+[stats.Jump] = permutation_testGLM(VertJumpSelectedData.subjectLevel.All, HorzJumpSelectedData.subjectLevel.All, jumpEvent);
+
+TimeBinsRegressor = options.subjectLevelGLM.(glmFlag).regressors(HorzJumpRegressorIDx).timeBins/1000; %in seconds because permutation test also in seconds
+
+[SignificantTimePoints.Jump] = get_significant_labels_for_plotting_ERPs(stats.Jump, TimeBinsRegressor);
+
+%%
+HorzPERegressorIDx = 3;
+[HorzPESelectedData, HorzPEAllDataAvg, ~, ~, ~] = ...
+    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
+    subjectList, csdFlag, reference, nS, electrodesForPermTest, HorzPERegressorIDx, jumpEvent);
+
+% because we evaluated the horizontal regressor from -1.5 to 1.5, but the
+% vertical one only from -1 to 1.5 we need to shorten the horizontal
+% regressor by 0.5 so that the time axis for both regressors is the same
+% for calculating the correct SE for plotting. 
+
+for subject = 1:length(HorzPESelectedData.subjectLevel.All)
+HorzPESelectedData.subjectLevel.All{subject}.time(1:50) = [];
+HorzPESelectedData.subjectLevel.All{subject}.avg(1:50) = [];
+end 
+HorzPESelectedData.Average.All.time(1:50) = [];
+HorzPESelectedData.Average.All.avg(1:50) = [];
+
+VertPERegressorIDx = 10;
+[VertPESelectedData, VertPEAllDataAvg, ~, ~, ~] = ...
+    prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
+    subjectList, csdFlag, reference, nS, electrodesForPermTest, VertPERegressorIDx, jumpEvent);
+
+[diffWave.Avg.diffWavePE, ~] = calculate_difference_waveform(HorzPESelectedData.subjectLevel.All, VertPESelectedData.subjectLevel.All);
+
+[stats.PE] = permutation_testGLM(VertPESelectedData.subjectLevel.All, HorzPESelectedData.subjectLevel.All, jumpEvent);
+
+TimeBinsRegressor = options.subjectLevelGLM.(glmFlag).regressors(VertPERegressorIDx).timeBins/1000; %in seconds because permutation test also in seconds
+
+[SignificantTimePoints.PE] = get_significant_labels_for_plotting_ERPs(stats.PE, TimeBinsRegressor);
+
+
+%% 
+
+figure 
+set(gcf, 'PaperUnits', 'inches');
+%set(gcf, 'PaperSize', plotVariables.figure3.paperSize);
+set(gcf, 'Position',  [200, 1600, 1000, 1000]);
+
+%%
+subplot(3,4,2)
+text(0,0.3,'horizontal motion','FontSize',20);axis off
+
+subplot(3,4,3)
+text(0,0.3,'vertical motion','FontSize',20);axis off
+
+%% Jump Regressor
+subplot(3,4,5)
+text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzJumpRegressorIDx).name,'FontSize',20);axis off
+
+subplot(3,4,6)
+create_topo_plot(HorzJumpAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.JumpRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
 tidyfig; 
 
+subplot(3,4,7)
+create_topo_plot(VertJumpAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.JumpRegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
+tidyfig; 
+
+subplot(3,4,8)
+hold on
+
+create_ERP_plot(HorzJumpSelectedData.Average.All.time, HorzJumpSelectedData.Average.All.avg, diffWave.Avg.diffWaveJump.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
+create_ERP_plot(VertJumpSelectedData.Average.All.time, VertJumpSelectedData.Average.All.avg, diffWave.Avg.diffWaveJump.se, plotVariables.figure3.ERP.colour(2,:),plotVariables.figure3.LineWidth)
+
+% plot significant time points, if there are any 
+if any(SignificantTimePoints.Jump)
+
+    plot_significant_timepoints(HorzJumpSelectedData.Average.All.time, SignificantTimePoints.Jump, plotVariables.figure3.JumpRegressor.ylim(2))
+
 end 
+
+legend(plotVariables.figure3.legend);
+
+xlim(plotVariables.figure3.xlim)
+ylim(plotVariables.figure3.JumpRegressor.ylim)
+
+xlabel(plotVariables.figure3.xlabel)
+ylabel(plotVariables.figure3.ylabel)
+
+tidyfig;
+
+hold off
+
+
+%% PE
+subplot(3,4,9)
+text(0,0.5,options.subjectLevelGLM.(glmFlag).regressors(HorzPERegressorIDx).name,'FontSize',20);axis off
+
+subplot(3,4,10)
+create_topo_plot(HorzPEAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.PERegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
+tidyfig; 
+
+subplot(3,4,11)
+create_topo_plot(VertPEAllDataAvg,0.3, 0.4, plotVariables.figure3.topoPlot.PERegressor.zlim, electrodesForPermTest, plotVariables.figure3.topoPlot.colour);
+tidyfig; 
+
+subplot(3,4,12)
+hold on
+
+create_ERP_plot(HorzPESelectedData.Average.All.time, HorzPESelectedData.Average.All.avg, diffWave.Avg.diffWavePE.se, plotVariables.figure3.ERP.colour(1,:),plotVariables.figure3.LineWidth)
+create_ERP_plot(VertPESelectedData.Average.All.time, VertPESelectedData.Average.All.avg, diffWave.Avg.diffWavePE.se, plotVariables.figure3.ERP.colour(2,:),plotVariables.figure3.LineWidth)
+
+if any(SignificantTimePoints.PE)
+
+    plot_significant_timepoints(HorzPESelectedData.Average.All.time, SignificantTimePoints.PE, plotVariables.figure3.PERegressor.ylim(2))
+
+end 
+
+xlim(plotVariables.figure3.xlim)
+ylim(plotVariables.figure3.PERegressor.ylim)
+
+xlabel(plotVariables.figure3.xlabel)
+ylabel(plotVariables.figure3.ylabel)
+
+tidyfig;
+
+hold off
+
+
+end

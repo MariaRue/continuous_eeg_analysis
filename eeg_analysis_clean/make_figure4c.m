@@ -1,4 +1,4 @@
-function make_figure10b(plotVariables, options)
+function make_figure4c(plotVariables, options)
 
 
 
