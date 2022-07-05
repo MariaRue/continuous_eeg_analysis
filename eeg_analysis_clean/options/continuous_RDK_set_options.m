@@ -4,6 +4,9 @@ Fs = 100;
 
 options.conditionLabels = {'Trials frequent & short', 'Trials frequent & long', 'Trials rare & short', 'Trials rare & long' };
 
+options.scriptdir = '/Users/maria/Documents/MATLAB/continuous_eeg_analysis/eeg_analysis_clean';
+options.preproc.path.layout = '/Users/maria/Documents/MATLAB/fieldtrip/template/layout/easycapM10.mat';
+
 % set paths for stimulus matched EEG data - we still need to define later
 % whether we want csd transformed data or not, in addition, these directory
 % structures are not very tidy and I need to delete stuff - I have several
@@ -50,7 +53,24 @@ switch mac
         options.path.EEG.subjects = fullfile(sd,'projects','maria_RDM','rawData','experiment');
         options.path.preproc.behaviour = fullfile(sd,'projects','maria_RDM','preprocessedData','behaviour');
         options.path.EEG.raw = fullfile(sd,'Users','laurence','scratch','projects','maria_RDM');
+    
+    case 'lilian'
+        % set paths for fieldtrip, spm and cbrewer
+        hd = '/home/lil/';
+        sd = '/media/lil/copyCrdk/RDM_Maria';
         
+        addpath(fullfile(hd,'sfw','spm12-master'));
+        %addpath(fullfile(hd,'matlab','hidden_from_matlab','eeglab2020_0'));
+        %addpath(fullfile(hd,'matlab','hidden_from_matlab','fieldtrip')); % fieldtrip tool box to analyse data
+        addpath(fullfile(hd, 'sfw', 'cbrewer'));
+        %addpath(fullfile(hd,'matlab','downloaded','shadedErrorBar'));
+        
+        options.path.EEG.analysis =  sd;
+        options.path.EEG.subjects = fullfile(sd, 'rawData', 'experiment');
+        options.path.preproc.behaviour = fullfile(sd, 'preprocessedData', 'behaviour');
+        options.path.EEG.raw = fullfile(sd, 'rawData');
+        
+        options.scriptdir = '/home/lil/projects/ccn/ContinuousMotion/rdm_maria/eeg-analysis/github/eeg_analysis_clean';
     otherwise
         error('unrecognised computer');
 end
@@ -59,7 +79,6 @@ end
 ft_defaults;
 %spm('defaults','eeg');
 
-options.scriptdir = '/Users/maria/Documents/MATLAB/continuous_eeg_analysis/eeg_analysis_clean';
 addpath(genpath(options.scriptdir));
 % this has to be completed with folder for subject and if averaged
 
@@ -208,5 +227,4 @@ options.preproc.preclean.badchanthresh      = 0.5;
 options.preproc.preclean.rejectPrefix       = 'cleaned_';
 options.preproc.keep = 1;
 
-options.preproc.path.layout = '/Users/maria/Documents/MATLAB/fieldtrip/template/layout/easycapM10.mat';
 end
