@@ -21,6 +21,7 @@ falseAlarmRate = calculate_false_alarm_rate(all_responses,SubjectListBehaviourEE
 % reaction time 
 ReactionTimes = calculate_reaction_times(all_responses,SubjectListBehaviourEEG,nS,coherence);
 
+
 % integrationn kernels 
 lags = 500;
 [GroupIntegrationKernels, SubjectIntegrationKernels, SignificantTimePoints] = calculate_integration_kernels_for_signal_periods(all_responses,SubjectListBehaviourEEG,nS, mean_stim_streams, stim_streams, trigger_streams,lags);
@@ -43,6 +44,7 @@ ylabel('Correct detection rate')
 legend(plotVariables.originalConditions,'Location','SouthEast')
 tidyfig;
 hold off
+
 
 %% false Alarm rate - now moved to a separate figure.
 % subplot(2,2,2) 

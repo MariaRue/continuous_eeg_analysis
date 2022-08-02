@@ -11,7 +11,7 @@ csdFlag = 0;
 file_ID_behaviour = paths.behaviour(1).sessionList;
 
 response_mat= load(file_ID_behaviour,'respMat','B'); % responses
-
+keyboard;
 figure;
 set(gcf,'Position',[138         300        1387         770]);
 for i = 1:4; 

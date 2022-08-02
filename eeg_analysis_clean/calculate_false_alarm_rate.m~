@@ -46,7 +46,7 @@ end
 
 
 %% now perform 2-way ANOVA for factors of FREQUENCY, LENGTH
-
+keyboard;
 slDataforANOVA = permute(subjectLevel,[2 1]);
 
 varNames = {'Y1' 'Y2' 'Y3' 'Y4'};

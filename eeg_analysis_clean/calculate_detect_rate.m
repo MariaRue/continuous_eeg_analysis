@@ -67,10 +67,28 @@ for condition = 1:4
     end
 end
 
+%% now perform 3-way ANOVA for factors of FREQUENCY, LENGTH, COHERENCE
+
+slDataforANOVA = permute(subjectLevel,[3 2 1]);
+
+varNames = {'Y1' 'Y2' 'Y3' 'Y4' 'Y5' 'Y6' 'Y7' 'Y8' 'Y9' 'Y10' 'Y11' 'Y12'};
+t = array2table(slDataforANOVA(:,:),'VariableNames',varNames);
+
+factorNames = {'Freq','Length','Coherence'};
+within = table({'F';'F';'R';'R';'F';'F';'R';'R';'F';'F';'R';'R'},...
+               {'S';'L';'S';'L';'S';'L';'S';'L';'S';'L';'S';'L'},...
+               {'30';'30';'30';'30';'40';'40';'40';'40';'50';'50';'50';'50'},'VariableNames',factorNames); %F = frequent, R = Rare, S = short, L = long
+
+% fit the repeated measures model
+rm = fitrm(t,'Y1-Y12~1','WithinDesign',within);
+[ranovatbl] = ranova(rm, 'WithinModel','Freq*Length*Coherence');
+
+%% compress into output structure
+
 detectRate.subjectLevel = subjectLevel; 
 detectRate.groupLevel = groupLevel; 
 detectRate.groupLevelSe = groupLevelSe; 
-
+detectRate.ranovatbl = ranovatbl;
 
 
 
