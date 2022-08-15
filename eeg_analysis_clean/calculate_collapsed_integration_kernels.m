@@ -147,7 +147,7 @@ for condition = 1 : 4
         pstart(1) = 1; % Amplitude
         pstart(2) = 1; % 1/tau
         % pstart(3) = 1; % offset
-        
+        keyboard;
         fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works
         [ExpParameters.parameters(condition,:,subject),~,exitflag(condition,subject)] = fminsearch(fun,pstart,options);
 

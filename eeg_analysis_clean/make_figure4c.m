@@ -89,6 +89,6 @@ fh.Position = [1831 243 884 725];
 % long vs. short A
 [h,p,ci,stats] = ttest(ExpParameters.sorted.long.amplitude-ExpParameters.sorted.short.amplitude);
 
-
+keyboard;
 
 end
