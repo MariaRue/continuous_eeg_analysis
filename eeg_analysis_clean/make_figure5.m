@@ -6,6 +6,8 @@ glmFlag = 'all_regressors';
 % subject list
 subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
 %subjectList = [62:64,66,68,70]; % vertical motion only
+%subjectList([8 9 20]) = []; %for TF decomp errors only
+
 
 csdFlag = 0; % 1 for csd transformed data
 if csdFlag %temporary fix for bug in first subjects' CSD transform
@@ -27,7 +29,7 @@ jumpEvent = 1; %flag that defines specific variables for jump Event regressors o
          subjectList, csdFlag, reference, nS, electrodesForPermTest, regressorIDx, jumpEvent);
      
 %% plot 
-
+keyboard;
 figure (1) 
 set(gcf, 'PaperUnits', 'inches');
 set(gcf, 'PaperSize', plotVariables.figure1.paperSize);

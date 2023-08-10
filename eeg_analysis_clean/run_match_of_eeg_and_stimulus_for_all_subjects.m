@@ -1,13 +1,14 @@
 % this script runs across subjects and tries to find the optimal match of
 % EEG samples and triggers recorded with the behavioural data for each
 % stimulus
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 
 subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35,  42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
 %subjectList = [ 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
 %subjectList = [62:64,66,68,70];
 
 csdFlag = 0; % 1 for csd transformed data
+tfDecomp = 1; %1 for time-frequency decomposed data (beta band)
 reference = 'LMRM';
 for subject = 1:length(subjectList)
     
@@ -20,9 +21,14 @@ for subject = 1:length(subjectList)
         
         session = details.sessionIDs(sessionCount);
         
-   
-        D = spm_eeg_load(paths.(reference).continuousPreproc(sessionCount).sessionList);
-       
+        if tfDecomp
+            [p,~,~] = fileparts(paths.(reference).continuousPreproc(sessionCount).sessionList);
+            D = spm_eeg_load(fullfile(p,details.preproc.tfDecomp(sessionCount).names));
+        else
+            
+            D = spm_eeg_load(paths.(reference).continuousPreproc(sessionCount).sessionList);
+        end
+        
         D.trialonset
 
         % load stimulus triggers
@@ -54,17 +60,26 @@ for subject = 1:length(subjectList)
         end
         
         for block = 1:length(nBlocks) % loop through blocks
-            
-            [eegTriggerVals,flagBlockMatched]=compare_eeg_and_behavioural_triggers(eeg_events(sob(block):eob(block)),bhvTriggersAllBlocks{nBlocks(block)});
-            
+            try
+                
+                [eegTriggerVals,flagBlockMatched]=compare_eeg_and_behavioural_triggers(eeg_events(sob(block):eob(block)),bhvTriggersAllBlocks{nBlocks(block)});
+            catch
+                warning('script comparing eeg and behaviour failed!!');
+                flagBlockMatched = 0;
+            end
             if flagBlockMatched
                 
                 [blockStartEEGIdx,blockEndEEGIdx] = match_eeg_data_with_behavioural_triggers(eeg_events(sob(block):eob(block)),bhvTriggersAllBlocks{nBlocks(block)},D);
                 
                 % select EEG data and corresponding artefacts that matches stimulus
-                EEGDat{session}{conditionID(nBlocks(block))} = D(:,blockStartEEGIdx:blockEndEEGIdx,1);
-                badSamples{session}{conditionID(nBlocks(block))} = D.badsamples(:,blockStartEEGIdx:blockEndEEGIdx,1);
-             
+                if tfDecomp
+                    EEGDat{session}{conditionID(nBlocks(block))} = squeeze(D(:,:,blockStartEEGIdx:blockEndEEGIdx,1));
+                    badSamples{session}{conditionID(nBlocks(block))} = D.badsamples(:,blockStartEEGIdx:blockEndEEGIdx,1);
+                else
+                    EEGDat{session}{conditionID(nBlocks(block))} = D(:,blockStartEEGIdx:blockEndEEGIdx,1);
+                    badSamples{session}{conditionID(nBlocks(block))} = D.badsamples(:,blockStartEEGIdx:blockEndEEGIdx,1);
+                    
+                end
             else
                 % don't save anything because EEG data doesn't match
                 % stimulus
@@ -80,7 +95,10 @@ for subject = 1:length(subjectList)
     end %session
     
     %%%%%%%
-    save(paths.(reference).matchedEEG.saveName,'EEGDat','badSamples');
-    
+    if tfDecomp
+        save(paths.(reference).matchedEEG_tf.saveName,'EEGDat','badSamples');
+    else
+        save(paths.(reference).matchedEEG.saveName,'EEGDat','badSamples');
+    end
 end % subject
 

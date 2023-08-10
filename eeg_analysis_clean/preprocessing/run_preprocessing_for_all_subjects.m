@@ -1,8 +1,8 @@
-%subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 32, 33, 34, 35, 39, 40, 41, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
-subjectList = [62:64,66,68,70];
+subjectList = [16, 18:21, 24, 26, 27, 28, 29, 31, 33, 34, 35, 39, 40, 41, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58];
+%subjectList = [62:64,66,68,70];
 
 reference = 'LMRM';
-options = continuous_RDK_set_options('iMac');
+options = continuous_RDK_set_options('LTHiMac');
 eeglab;
 
 forceEEGLABConvert = 0;
@@ -12,8 +12,9 @@ forceRereference =0;
 forceFilter = 0;
 forceArtefactRejection = 0;
 forceNanArtefacts = 0;
+forceTFdecomp = 1;
 
-csdFlag = 1; 
+csdFlag = 0;
 
 % transform raw data to set files that can be read by spm
 for subject = 1:length(subjectList)
@@ -30,7 +31,7 @@ for subject = 1:length(subjectList)
         end
     end
     
-    for session = 1%:length(details.sessionIDs)
+    for session = 1:length(details.sessionIDs)
         sessionID = details.preproc.sessionIDs(session);
         
         cd(paths.preprocessed.SPM)
@@ -68,39 +69,43 @@ for subject = 1:length(subjectList)
         end
         
         if forceFilter
-        
-        D{session} = filter_EEG(D{session},options);
-        
-        else 
-          D{session} = spm_eeg_load(details.preproc.filteredFiles(session).names);   
+            
+            D{session} = filter_EEG(D{session},options);
+            
+        else
+            D{session} = spm_eeg_load(details.preproc.filteredFiles(session).names);
             
         end
         
         if forceArtefactRejection
-        D{session} = reject_eyeblinks_artefacts(D{session},subID,session,options,details.preproc.eyeblink.threshold(1,sessionID));
-        else 
+            D{session} = reject_eyeblinks_artefacts(D{session},subID,session,options,details.preproc.eyeblink.threshold(1,sessionID));
+        else
             
             
-        end 
+        end
         
+        if forceTFdecomp
+            D{session} = spm_eeg_load(details.preproc.nanCorrection(session).names);
+            D{session} = beta_power_EEG(D{session});
+        end
         
         if forceNanArtefacts
-        
-        make_copy_for_fieldtrip(D{session},0);
-        
-        else 
             
-        end 
+            make_copy_for_fieldtrip(D{session},0);
+            
+        else
+            
+        end
         
         
-       if csdFlag
-           
-        D{session} = spm_eeg_load(details.preproc.eyeCorrection(session).names);      
-        D{session} = csd_transform_EEG(D{session});
-        
-        make_copy_for_fieldtrip(D{session},1);
-
-        end 
+        if csdFlag
+            
+            D{session} = spm_eeg_load(details.preproc.eyeCorrection(session).names);
+            D{session} = csd_transform_EEG(D{session});
+            
+            make_copy_for_fieldtrip(D{session},1);
+            
+        end
     end
     cd (options.scriptdir)
 end

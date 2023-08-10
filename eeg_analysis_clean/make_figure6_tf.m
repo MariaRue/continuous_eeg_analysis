@@ -6,7 +6,7 @@ function make_figure6(plotVariables,options)
 %%% change regressor indices when using the response or response_coherence
 %%% GLM!!!
 
-glmFlag = 'all_regressors';
+glmFlag = 'all_regressors_tf';
 
 
 
@@ -42,7 +42,7 @@ falseAlarmRegressorIDx = 7;
          subjectList, csdFlag, reference, nS, electrodesForPermTest, falseAlarmRegressorIDx, jumpEvent);
 
 %% plot 
-figure (2) 
+figure (2) ;clf
 set(gcf, 'PaperUnits', 'inches');
 set(gcf, 'PaperSize', plotVariables.figure1.paperSize);
 set(gcf, 'Position',  plotVariables.figure1.position); 
@@ -65,7 +65,7 @@ end
 
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.ERP.ylim)
+%ylim(plotVariables.figure2.ERP.ylim)
 legend(plotVariables.conditions(1:2))
  
 xlabel(plotVariables.figure2.xlabel)
@@ -93,7 +93,7 @@ end
 
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.ERP.ylim)
+%ylim(plotVariables.figure2.ERP.ylim)
 legend(plotVariables.conditions(3:4))
  
 xlabel(plotVariables.figure2.xlabel)
@@ -113,7 +113,7 @@ create_ERP_plot(corrResponseDiffWave.Avg.diffWaveFreqVSRare.time, corrResponseDi
 plot_x_axis_line(corrResponseDiffWave.Avg.diffWaveFreqVSRare.time, plotVariables.figure2.LineWidth)
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.diffWave.ylim)
+%ylim(plotVariables.figure2.diffWave.ylim)
 xlabel(plotVariables.figure2.xlabel)
 ylabel(plotVariables.diffWavesLabels(1))
      
@@ -132,7 +132,7 @@ create_ERP_plot(corrResponseDiffWave.Avg.diffWaveShortVSLong.time, corrResponseD
 plot_x_axis_line(corrResponseDiffWave.Avg.diffWaveShortVSLong.time, plotVariables.figure2.LineWidth)
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.diffWave.ylim)
+%ylim(plotVariables.figure2.diffWave.ylim)
 xlabel(plotVariables.figure2.xlabel)
 ylabel(plotVariables.diffWavesLabels(1))
      
@@ -157,7 +157,7 @@ end
 
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.ERP.ylim)
+%ylim(plotVariables.figure2.ERP.ylim)
 legend(plotVariables.conditions(1:2))
  
 xlabel(plotVariables.figure2.xlabel)
@@ -184,7 +184,7 @@ end
 
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.ERP.ylim)
+%ylim(plotVariables.figure2.ERP.ylim)
 legend(plotVariables.conditions(3:4))
  
 xlabel(plotVariables.figure2.xlabel)
@@ -204,7 +204,7 @@ create_ERP_plot(falseAlarmDiffWave.Avg.diffWaveFreqVSRare.time, falseAlarmDiffWa
 plot_x_axis_line(falseAlarmDiffWave.Avg.diffWaveFreqVSRare.time, plotVariables.figure2.LineWidth)
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.diffWave.ylim)
+%ylim(plotVariables.figure2.diffWave.ylim)
 xlabel(plotVariables.figure2.xlabel)
 ylabel(plotVariables.diffWavesLabels(1))
      
@@ -222,7 +222,7 @@ create_ERP_plot(falseAlarmDiffWave.Avg.diffWaveShortVSLong.time, falseAlarmDiffW
 plot_x_axis_line(falseAlarmDiffWave.Avg.diffWaveShortVSLong.time, plotVariables.figure2.LineWidth)
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.diffWave.ylim)
+%ylim(plotVariables.figure2.diffWave.ylim)
 xlabel(plotVariables.figure2.xlabel)
 ylabel(plotVariables.diffWavesLabels(1))
      

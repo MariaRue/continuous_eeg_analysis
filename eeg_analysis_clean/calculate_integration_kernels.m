@@ -150,8 +150,10 @@ for condition = 1 : 4
       fun = @(p)calculate_residuals_for_exponential_fit(p,data_new{condition,subject},t_sj{condition,subject}); % this is the correct cost function that works
       [ExpParameters.parameters(condition,:,subject),~,exitflag(condition,subject)] = fminsearch(fun,pstart,options);
         
+      [Rsquared(condition,subject)] = calculate_Rsquared_for_exponential_fit(ExpParameters.parameters(condition,:,subject), data_new{condition,subject},t_sj{condition,subject});
     end
 end
 SubjectIntegrationKernels.DataForModelFit = data_new;
 ExpParameters.time = t_sj;
+ExpParameters.Rsquared = Rsquared;
 end

@@ -6,14 +6,13 @@ function make_figure6(plotVariables,options)
 %%% change regressor indices when using the response or response_coherence
 %%% GLM!!!
 
-glmFlag = 'all_regressors';
+glmFlag = 'all_regressors_tf';
 
 
 
 % subject list
 subjectList = [16 18:21, 24, 26, 27, 28, 29, 31,  33, 34, 35, 42, 43, 47, 50, 51, 52, 54, 55, 57, 58]; %32 taken out
 %subjectList = [62:64,66,68,70]; % vertical motion only
-subjectList([8 9 20]) = []; %for TF decomp errors only
 
 csdFlag = 0; % 1 for csd transformed data
 if csdFlag %temporary fix for bug in first subjects' CSD transform
@@ -23,23 +22,25 @@ end
 reference = 'LMRM';
 nS = length(subjectList); %number of subjects
 
-electrodesForPermTest = {'CPz', 'CP1', 'CP2', 'C1', 'Cz', 'C2'};
-corrResponseRegressorIDx = 6; % correct response 
+%electrodesForPermTest = {'CPz', 'CP1', 'CP2', 'C1', 'Cz', 'C2'};
+rightElectrodes = {'C4' 'CP4' 'CP2'};
+leftElectrodes = {'C3' 'CP3' 'CP1'};
+corrResponseRegressorIDx = 8; % correct response diffwave
 
 jumpEvent = 0; %flag that defines specific variables for jump Event regressors or response locked ones ag
 
  %% prepare data for correct responses
 
 [corrResponseSelectedData, corrResponseAllDataAvg, corrResponseDiffWave, corrResponseStats, corrResponseSignificantTimePoints] = ...
-         prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-         subjectList, csdFlag, reference, nS, electrodesForPermTest, corrResponseRegressorIDx, jumpEvent);
+         prepare_diffwave_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
+         subjectList, csdFlag, reference, nS, leftElectrodes, rightElectrodes, corrResponseRegressorIDx, jumpEvent);
 
 %% prepare data for false alarms
 
-falseAlarmRegressorIDx = 7;
+falseAlarmRegressorIDx = 9; %false alarm diffwave
 [falseAlarmSelectedData, falseAlarmAllDataAvg, falseAlarmDiffWave, falseAlarmStats, falseAlarmSignificantTimePoints] = ...
-         prepare_data_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
-         subjectList, csdFlag, reference, nS, electrodesForPermTest, falseAlarmRegressorIDx, jumpEvent);
+         prepare_diffwave_for_convolutional_GLM_and_topoplots(glmFlag, options, ...
+         subjectList, csdFlag, reference, nS, leftElectrodes, rightElectrodes, falseAlarmRegressorIDx, jumpEvent);
 
 %% plot 
 figure (2) 
@@ -65,7 +66,7 @@ end
 
 
 xlim(plotVariables.figure2.xlim)
-ylim(plotVariables.figure2.ERP.ylim)
+%ylim(plotVariables.figure2.ERP.ylim)
 legend(plotVariables.conditions(1:2))
  
 xlabel(plotVariables.figure2.xlabel)
@@ -150,7 +151,7 @@ create_ERP_plot(falseAlarmSelectedData.Average.Rare.time, falseAlarmSelectedData
 % plot significant time points, if there are any 
 if any(falseAlarmSignificantTimePoints.Frequency)
 
-    plot_significant_timepoints(falseAlarmSelectedData.Average.Freq.time,falseAlarmSignificantTimePoints.Frequency)
+    %plot_significant_timepoints(falseAlarmSelectedData.Average.Freq.time,falseAlarmSignificantTimePoints.Frequency)
 
 end 
    
@@ -177,7 +178,7 @@ create_ERP_plot(falseAlarmSelectedData.Average.Long.time, falseAlarmSelectedData
 % plot significant time points, if there are any 
 if any(falseAlarmSignificantTimePoints.Length)
 
-    plot_significant_timepoints(falseAlarmSelectedData.Average.Short.time,falseAlarmSignificantTimePoints.Length)
+%    plot_significant_timepoints(falseAlarmSelectedData.Average.Short.time,falseAlarmSignificantTimePoints.Length)
 
 end 
    
@@ -239,8 +240,8 @@ hold off
     
     
     
-    subplot(4,3,6);
-    create_topo_plot(corrResponseAllDataAvg,-0.5, 0, plotVariables.figure2.topoPlot.zlim, electrodesForPermTest, plotVariables.figure1.topoPlot.colour)
+    %subplot(4,3,6);
+    %create_topo_plot(corrResponseAllDataAvg,-0.5, 0, plotVariables.figure2.topoPlot.zlim, electrodesForPermTest, plotVariables.figure1.topoPlot.colour)
     
 
 %% topo plot false alarm responses 
@@ -252,8 +253,8 @@ hold off
     
     
     
-    subplot(4,3,12);
-    create_topo_plot(falseAlarmAllDataAvg,-0.5, 0, plotVariables.figure2.topoPlot.zlim, electrodesForPermTest, plotVariables.figure1.topoPlot.colour)
+    %subplot(4,3,12);
+    %create_topo_plot(falseAlarmAllDataAvg,-0.5, 0, plotVariables.figure2.topoPlot.zlim, electrodesForPermTest, plotVariables.figure1.topoPlot.colour)
     
 
 end 

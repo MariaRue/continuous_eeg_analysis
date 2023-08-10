@@ -52,8 +52,10 @@ switch mac
         options.path.EEG.analysis =  fullfile(sd,'projects','maria_RDM');
         options.path.EEG.subjects = fullfile(sd,'projects','maria_RDM','rawData','experiment');
         options.path.preproc.behaviour = fullfile(sd,'projects','maria_RDM','preprocessedData','behaviour');
-        options.path.EEG.raw = fullfile(sd,'Users','laurence','scratch','projects','maria_RDM');
+        options.path.EEG.raw = fullfile(sd,'projects','maria_RDM','rawData');
     
+        options.scriptdir = '/Users/laurence/Dropbox/Private/projects/continuous_eeg_analysis/eeg_analysis_clean';
+        
     case 'lilian'
         % set paths for fieldtrip, spm and cbrewer
         hd = '/home/lil/';
@@ -190,6 +192,9 @@ options.subjectLevelGLM.coherence_responses.name = 'vertical_jumps_absolute';
 
 options.subjectLevelGLM.all_regressors.regressors = options.subjectLevelGLM.allRegressors([1:10 15]);
 options.subjectLevelGLM.coherence_responses.name = 'all_regressors';
+
+options.subjectLevelGLM.all_regressors_tf.regressors = options.subjectLevelGLM.allRegressors([1:10 15]);
+options.subjectLevelGLM.coherence_responses.name = 'all_regressors_tf'; %same as above but with TF decomp
 
 options.subjectLevelGLM.all_regressors_with_reg.regressors = options.subjectLevelGLM.allRegressors([1:10 15]);
 options.subjectLevelGLM.coherence_responses.name = 'all_regressors_with_reg'; %same as above but with regularisation switched on

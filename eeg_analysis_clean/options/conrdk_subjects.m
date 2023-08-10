@@ -51,12 +51,12 @@ end
 
 
 
-paths.preprocessed.SPM = fullfile(options.path.EEG.raw,'preprocessedData','EEG',reference,sprintf('sub%03.0f',id));
+paths.preprocessed.SPM = fullfile(options.path.EEG.analysis,'preprocessedData','EEG',reference,sprintf('sub%03.0f',id));
 if ~exist( paths.preprocessed.SPM,'dir' )
     mkdir( paths.preprocessed.SPM )
 end
-paths.rawData.SPM = fullfile(options.path.EEG.raw,'rawData','experiment',sprintf('sub%03.0f',id),'eeg');
-paths.preprocessed.setFile.path = fullfile(options.path.EEG.raw,'preprocessedData','EEG','setFiles');
+paths.rawData.SPM = fullfile(options.path.EEG.raw,'experiment',sprintf('sub%03.0f',id),'eeg');
+paths.preprocessed.setFile.path = fullfile(options.path.EEG.analysis,'preprocessedData','EEG','setFiles');
 
 
 if csdFlag
@@ -75,12 +75,14 @@ else
     
     
     paths.(reference).matchedEEG.saveName = fullfile(options.path.EEG.analysis,'convGLM','matchedEegData','LMRM',[sprintf('sub%03.0f',id),'_EEGdat.mat']);
+    paths.(reference).matchedEEG_tf.saveName = fullfile(options.path.EEG.analysis,'convGLM','matchedEegData','LMRM',[sprintf('sub%03.0f',id),'_EEGdat_tf.mat']);
     paths.(reference).subjectLevelGLM.jumps_absolute.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_jumps_absolute.mat',id));
     paths.(reference).subjectLevelGLM.response.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_response.mat',id));
     
     paths.(reference).subjectLevelGLM.coherence_responses.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_coherence_responses.mat',id));
     paths.(reference).subjectLevelGLM.vertical_jumps_absolute.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_vertical_jumps_absolute.mat',id));
     paths.(reference).subjectLevelGLM.all_regressors.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_all_regressors.mat',id));
+    paths.(reference).subjectLevelGLM.all_regressors_tf.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_all_regressors_tfdecomp.mat',id));
     paths.(reference).subjectLevelGLM.all_regressors_with_reg.saveName = fullfile(options.path.EEG.analysis,'convGLM','betasGLMData','LMRM',sprintf('sub%03.0f_betas_all_regressors_regularised.mat',id));
      
     
@@ -119,6 +121,8 @@ for session = 1:length(details.preproc.sessionIDs)
     details.preproc.referencedFiles(session).names = sprintf('Mdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));
     details.preproc.filteredFiles(session).names = sprintf('fMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));
     details.preproc.eyeCorrection(session).names = sprintf('cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));
+    details.preproc.nanCorrection(session).names = sprintf('nanart_cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));
+    details.preproc.tfDecomp(session).names = sprintf('tf_nanart_cfMdspmeeg_sub%03.0f_sess%03.0f_eeg.mat',id,details.preproc.sessionIDs(session));
 
     
     %%%%%%
@@ -126,7 +130,7 @@ for session = 1:length(details.preproc.sessionIDs)
     details.preproc.ebspatialfig(session).names = fullfile(paths.preprocessed.SPM,sprintf('sub%03.0f_sess%03.0f_eyeblinkConfounds.fig',id,details.preproc.sessionIDs(session)));
     
     
-    paths.(reference).preprocessing.rawData.EEG(session).sessionList = fullfile(options.path.EEG.raw,'rawData','experiment',sprintf('sub%03.0f',id),'eeg',sprintf('sub%03.0f_sess%03.0f_eeg.cdt',id,details.preproc.sessionIDs(session)));
+    paths.(reference).preprocessing.rawData.EEG(session).sessionList = fullfile(options.path.EEG.raw,'experiment',sprintf('sub%03.0f',id),'eeg',sprintf('sub%03.0f_sess%03.0f_eeg.cdt',id,details.preproc.sessionIDs(session)));
     paths.(reference).preprocessing.EEGlab.EEG(session).sessionList = fullfile('/Volumes/crdkData/preprocessedData/EEG/setFiles',sprintf('sub%03.0f_sess%03.0f_eeg.set',id,details.preproc.sessionIDs(session)));
     
     

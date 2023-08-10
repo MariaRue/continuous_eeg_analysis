@@ -25,6 +25,10 @@ make_figure5(plotVariables,options);
 %% figure 6: plots ramp to response, sorted by long vs. short, rare vs. frequent
 make_figure6(plotVariables,options); 
 
+%for response to reviewers, see also:
+%make_figure6_tf(plotVariables,options); 
+%make_figure6_tf_lateralised(plotVariables,options); 
+
 %% figure 7: split by horizontal and vertical motion (all different regressors; only n=6 subjects)
 make_figure7(plotVariables,options);
 
